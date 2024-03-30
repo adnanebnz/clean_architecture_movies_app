@@ -8,3 +8,5 @@ sealed class PopularMoviesEvent extends Equatable {
 }
 
 class FetchPopularMovies extends PopularMoviesEvent {}
+
+class FetchNextPage extends PopularMoviesEvent {}

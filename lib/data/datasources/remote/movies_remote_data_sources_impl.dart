@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:movies_app/core/exceptions/Failure.dart';
 import 'package:movies_app/core/exceptions/dio_exception.dart';
@@ -13,14 +11,15 @@ class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource {
   MoviesRemoteDataSourceImpl({required this.dio});
 
   @override
-  Future<List<MovieModel>> getPopularMovies() async {
+  Future<List<MovieModel>> getPopularMovies(int page) async {
     try {
-      final response = await dio.get("/movie/popular");
+      final response = await dio.get("/movie/popular", queryParameters: {
+        "page": page,
+      });
       final List<MovieModel> movies = (response.data['results'] as List)
           .map((e) => MovieModel.fromJson(e))
           .toList();
 
-      log(movies.toString());
       return movies;
     } on DioException catch (dioError) {
       final error = DioExceptions.fromDioError(dioError);
@@ -31,9 +30,11 @@ class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource {
   }
 
   @override
-  Future<List<MovieModel>> getTrendingMovies() async {
+  Future<List<MovieModel>> getTrendingMovies(int page) async {
     try {
-      final response = await dio.get("/trending/movie/day");
+      final response = await dio.get("/trending/movie/day", queryParameters: {
+        "page": page,
+      });
       final List<MovieModel> movies = (response.data['results'] as List)
           .map((e) => MovieModel.fromJson(e))
           .toList();
@@ -47,10 +48,11 @@ class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource {
   }
 
   @override
-  Future<List<MovieModel>> searchMovies(String query) async {
+  Future<List<MovieModel>> searchMovies(String query, int page) async {
     try {
       final response = await dio.get("/search/movie", queryParameters: {
         "query": query,
+        "page": page,
       });
       final List<MovieModel> movies = (response.data['results'] as List)
           .map((e) => MovieModel.fromJson(e))

@@ -12,10 +12,10 @@ class MovieRepositoryImpl implements MovieRepository {
   MovieRepositoryImpl({required this.remoteDataSource});
 
   @override
-  FutureEither<List<Movie>> getPopularMovies() async {
+  FutureEither<List<Movie>> getPopularMovies(int page) async {
     try {
       final List<MovieModel> movieModels =
-          await remoteDataSource.getPopularMovies();
+          await remoteDataSource.getPopularMovies(page);
       final List<Movie> movies =
           movieModels.map((model) => model.toEntity()).toList();
       return Right(movies);
@@ -25,10 +25,10 @@ class MovieRepositoryImpl implements MovieRepository {
   }
 
   @override
-  FutureEither<List<Movie>> getTrendingMovies() async {
+  FutureEither<List<Movie>> getTrendingMovies(int page) async {
     try {
       final List<MovieModel> movieModels =
-          await remoteDataSource.getTrendingMovies();
+          await remoteDataSource.getTrendingMovies(page);
       final List<Movie> movies =
           movieModels.map((model) => model.toEntity()).toList();
       return Right(movies);
@@ -38,10 +38,10 @@ class MovieRepositoryImpl implements MovieRepository {
   }
 
   @override
-  FutureEither<List<Movie>> searchMovies(String query) async {
+  FutureEither<List<Movie>> searchMovies(String query, int page) async {
     try {
       final List<MovieModel> movieModels =
-          await remoteDataSource.searchMovies(query);
+          await remoteDataSource.searchMovies(query, page);
       final List<Movie> movies =
           movieModels.map((model) => model.toEntity()).toList();
       return Right(movies);

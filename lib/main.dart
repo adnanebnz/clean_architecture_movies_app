@@ -26,11 +26,11 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider(
             create: (context) =>
-                getIt<PopularMoviesBloc>()..add(FetchPopularMovies()),
+                getIt<TrendingMoviesBloc>()..add(FetchTrendingMovies()),
           ),
           BlocProvider(
             create: (context) =>
-                getIt<TrendingMoviesBloc>()..add(FetchTrendingMovies()),
+                getIt<PopularMoviesBloc>()..add(FetchPopularMovies()),
           ),
           BlocProvider(
             create: (context) => getIt<SearchMoviesBloc>(),

@@ -7,7 +7,7 @@ class GetTrendingMovies {
 
   GetTrendingMovies(this.repository);
 
-  FutureEither<List<Movie>> call() async {
-    return await repository.getTrendingMovies();
+  FutureEither<List<Movie>> call(int page) async {
+    return await repository.getTrendingMovies(page);
   }
 }

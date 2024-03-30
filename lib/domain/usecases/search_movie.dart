@@ -7,7 +7,7 @@ class SearchMovies {
 
   SearchMovies(this.repository);
 
-  FutureEither<List<Movie>> call(String query) async {
-    return await repository.searchMovies(query);
+  FutureEither<List<Movie>> call(String query, int page) async {
+    return await repository.searchMovies(query, page);
   }
 }

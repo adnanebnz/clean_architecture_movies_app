@@ -64,15 +64,33 @@ class HomeScreen extends StatelessWidget {
               ),
 
               // Trending Movies
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: const Text(
-                  'Trending Movies',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold),
-                ),
+              Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: const Text(
+                      'Trending Movies',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  const Spacer(),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: TextButton(
+                      onPressed: () {},
+                      child: const Text(
+                        'View All',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    ),
+                  ),
+                ],
               ),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
