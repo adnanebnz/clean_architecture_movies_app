@@ -1,4 +1,5 @@
-part of 'trending_movies_bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:movies_app/domain/entities/movie.dart';
 
 sealed class TrendingMoviesState extends Equatable {
   const TrendingMoviesState();

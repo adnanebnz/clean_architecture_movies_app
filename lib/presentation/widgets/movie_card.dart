@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:movies_app/domain/entities/movie.dart';
 
 class MovieCard extends StatelessWidget {
-  const MovieCard(this.movie, {Key? key}) : super(key: key);
+  const MovieCard(this.movie, {super.key});
 
   final Movie movie;
 
@@ -28,12 +28,39 @@ class MovieCard extends StatelessWidget {
               width: 200,
             ),
             Positioned(
+              top: 2,
+              left: 5,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 1),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: Colors.black.withOpacity(0.2),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.star,
+                      color: Colors.yellow,
+                      size: 16,
+                    ),
+                    Text(
+                      movie.voteAverage.toString(),
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
               bottom: 10,
               left: 5,
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
                 decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.5),
+                  color: Colors.black.withOpacity(0.35),
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: Text(

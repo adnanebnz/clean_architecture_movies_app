@@ -13,26 +13,27 @@ class PopularMoviesBloc extends Bloc<PopularMoviesEvent, PopularMoviesState> {
   PopularMoviesBloc({required this.getPopularMovies})
       : super(PopularMoviesInitial()) {
     on<FetchPopularMovies>((event, emit) async {
+      emit(PopularMoviesLoading());
       final failureOrMovies = await getPopularMovies(currentPage);
       failureOrMovies.fold(
           (failure) => emit(PopularMoviesError(failure.toString())),
           (movies) => emit(PopularMoviesLoaded(movies)));
     });
     on<FetchNextPage>((event, emit) async {
-      if (state is! PopularMoviesLoaded) {
-        emit(PopularMoviesLoading());
-
-        currentPage++;
-        final failureOrMovies = await getPopularMovies(currentPage);
-        failureOrMovies
-            .fold((failure) => emit(PopularMoviesError(failure.toString())),
-                (movies) {
+      currentPage = event.pageKey;
+      emit(PopularMoviesLoading());
+      final failureOrMovies = await getPopularMovies(currentPage);
+      failureOrMovies.fold(
+          (failure) => emit(PopularMoviesError(failure.toString())), (movies) {
+        if (state is PopularMoviesLoaded) {
           final previousState = state as PopularMoviesLoaded;
           final updatedMovies = List<Movie>.from(previousState.movies)
             ..addAll(movies);
           emit(PopularMoviesLoaded(updatedMovies));
-        });
-      }
+        } else {
+          emit(PopularMoviesLoaded(movies));
+        }
+      });
     });
   }
 }

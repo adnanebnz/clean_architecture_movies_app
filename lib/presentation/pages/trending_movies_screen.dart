@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:movies_app/domain/entities/movie.dart';
 import 'package:movies_app/presentation/bloc/trending_movies/trending_movies_bloc.dart';
+import 'package:movies_app/presentation/bloc/trending_movies/trending_movies_event.dart';
+import 'package:movies_app/presentation/bloc/trending_movies/trending_movies_state.dart';
 import 'package:movies_app/presentation/widgets/movie_card.dart';
 
 class TrendingMoviesScreen extends StatefulWidget {
@@ -13,48 +15,69 @@ class TrendingMoviesScreen extends StatefulWidget {
 }
 
 class _TrendingMoviesScreenState extends State<TrendingMoviesScreen> {
-  int currentPage = 1;
-  final PagingController<int, Movie> pagingController =
-      PagingController(firstPageKey: 0);
+  final TextEditingController search = TextEditingController();
+  final _pagingController = PagingController<int, Movie>(
+    firstPageKey: 1,
+  );
+
   @override
   void initState() {
-    pagingController.addPageRequestListener((pageKey) {
-      context.read<TrendingMoviesBloc>().add(FetchTrendingMovies());
+    _pagingController.addPageRequestListener((pageKey) {
+      context.read<TrendingMoviesBloc>().add(FetchNextPage(pageKey));
     });
     super.initState();
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: BlocBuilder<TrendingMoviesBloc, TrendingMoviesState>(
-        builder: (context, state) {
-          if (state is TrendingMoviesLoading) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is TrendingMoviesLoaded) {
-            return _buildMoviesGrid(state.movies);
-          } else if (state is TrendingMoviesError) {
-            return Center(child: Text(state.message));
-          } else {
-            return const SizedBox.shrink();
-          }
-        },
-      ),
-    );
+  void dispose() {
+    _pagingController.dispose();
+    super.dispose();
   }
 
-  Widget _buildMoviesGrid(List<Movie> movies) {
-    return PagedGridView<int, Movie>(
-      pagingController: pagingController,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        childAspectRatio: 1 / 1.43,
-        mainAxisSpacing: 8,
-        crossAxisSpacing: 8,
-        crossAxisCount: 2,
-      ),
-      builderDelegate: PagedChildBuilderDelegate<Movie>(
-        itemBuilder: (context, item, index) => MovieCard(movies[index]),
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: BlocBuilder<TrendingMoviesBloc, TrendingMoviesState>(
+        builder: (context, state) {
+          if (state is TrendingMoviesLoaded) {
+            _pagingController.appendPage(
+                state.movies,
+                state.movies.isEmpty
+                    ? null
+                    : _pagingController.nextPageKey! + 1);
+          } else if (state is TrendingMoviesError) {
+            _pagingController.error = state.message;
+          }
+          return PagedGridView<int, Movie>(
+            showNewPageProgressIndicatorAsGridChild: false,
+            showNoMoreItemsIndicatorAsGridChild: true,
+            pagingController: _pagingController,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              childAspectRatio: 1,
+              mainAxisSpacing: 8,
+              crossAxisSpacing: 8,
+              crossAxisCount: 2,
+            ),
+            builderDelegate: PagedChildBuilderDelegate<Movie>(
+                animateTransitions: true,
+                firstPageProgressIndicatorBuilder: (context) {
+                  return const Center(
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
+                    ),
+                  );
+                },
+                newPageProgressIndicatorBuilder: (context) {
+                  return const Center(
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
+                    ),
+                  );
+                },
+                itemBuilder: (context, item, index) => MovieCard(item)),
+          );
+        },
       ),
     );
   }

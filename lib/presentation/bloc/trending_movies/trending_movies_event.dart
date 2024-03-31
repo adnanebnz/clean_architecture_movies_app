@@ -1,4 +1,4 @@
-part of 'trending_movies_bloc.dart';
+import 'package:equatable/equatable.dart';
 
 sealed class TrendingMoviesEvent extends Equatable {
   const TrendingMoviesEvent();
@@ -8,3 +8,9 @@ sealed class TrendingMoviesEvent extends Equatable {
 }
 
 class FetchTrendingMovies extends TrendingMoviesEvent {}
+
+class FetchNextPage extends TrendingMoviesEvent {
+  final int pageKey;
+
+  const FetchNextPage(this.pageKey);
+}

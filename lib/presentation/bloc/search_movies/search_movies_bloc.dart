@@ -19,19 +19,20 @@ class SearchMoviesBloc extends Bloc<SearchMoviesEvent, SearchMoviesState> {
           (movies) => emit(SearchMoviesLoaded(movies)));
     });
     on<FetchNextPage>((event, emit) async {
-      if (state is! SearchMoviesLoaded) {
-        emit(SearchMoviesLoading());
-
-        currentPage++;
-        final failureOrMovies = await searchMovies(event.query, currentPage);
-        failureOrMovies.fold(
-            (failure) => emit(SearchMoviesError(failure.toString())), (movies) {
+      currentPage = event.pageKey;
+      emit(SearchMoviesLoading());
+      final failureOrMovies = await searchMovies(event.query, currentPage);
+      failureOrMovies.fold(
+          (failure) => emit(SearchMoviesError(failure.toString())), (movies) {
+        if (state is SearchMoviesLoaded) {
           final previousState = state as SearchMoviesLoaded;
           final updatedMovies = List<Movie>.from(previousState.movies)
             ..addAll(movies);
           emit(SearchMoviesLoaded(updatedMovies));
-        });
-      }
+        } else {
+          emit(SearchMoviesLoaded(movies));
+        }
+      });
     });
   }
 }

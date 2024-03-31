@@ -9,4 +9,8 @@ sealed class PopularMoviesEvent extends Equatable {
 
 class FetchPopularMovies extends PopularMoviesEvent {}
 
-class FetchNextPage extends PopularMoviesEvent {}
+class FetchNextPage extends PopularMoviesEvent {
+  final int pageKey;
+
+  const FetchNextPage(this.pageKey);
+}
