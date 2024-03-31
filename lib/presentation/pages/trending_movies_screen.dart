@@ -19,11 +19,12 @@ class _TrendingMoviesScreenState extends State<TrendingMoviesScreen> {
   final _pagingController = PagingController<int, Movie>(
     firstPageKey: 1,
   );
-
   @override
   void initState() {
     _pagingController.addPageRequestListener((pageKey) {
-      context.read<TrendingMoviesBloc>().add(FetchNextPage(pageKey));
+      context
+          .read<TrendingMoviesBloc>()
+          .add(FetchNextPage(pageKey, pageKey + 1));
     });
     super.initState();
   }
@@ -41,11 +42,7 @@ class _TrendingMoviesScreenState extends State<TrendingMoviesScreen> {
       body: BlocBuilder<TrendingMoviesBloc, TrendingMoviesState>(
         builder: (context, state) {
           if (state is TrendingMoviesLoaded) {
-            _pagingController.appendPage(
-                state.movies,
-                state.movies.isEmpty
-                    ? null
-                    : _pagingController.nextPageKey! + 1);
+            _pagingController.appendPage(state.movies, state.nextPageKey);
           } else if (state is TrendingMoviesError) {
             _pagingController.error = state.message;
           }

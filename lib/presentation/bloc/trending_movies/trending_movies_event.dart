@@ -11,6 +11,10 @@ class FetchTrendingMovies extends TrendingMoviesEvent {}
 
 class FetchNextPage extends TrendingMoviesEvent {
   final int pageKey;
+  final int nextPageKey;
 
-  const FetchNextPage(this.pageKey);
+  const FetchNextPage(this.pageKey, this.nextPageKey);
+
+  @override
+  List<Object> get props => [pageKey, nextPageKey];
 }
