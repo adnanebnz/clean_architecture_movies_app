@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:movies_app/domain/entities/movie.dart';
 import 'package:movies_app/presentation/bloc/trending_movies/trending_movies_bloc.dart';
 import 'package:movies_app/presentation/bloc/trending_movies/trending_movies_event.dart';
 import 'package:movies_app/presentation/bloc/trending_movies/trending_movies_state.dart';
+import 'package:movies_app/presentation/pages/single_movie_screen.dart';
 import 'package:movies_app/presentation/widgets/movie_card.dart';
 
 class TrendingMoviesScreen extends StatefulWidget {
@@ -38,7 +40,17 @@ class _TrendingMoviesScreenState extends State<TrendingMoviesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle.light,
+        iconTheme: const IconThemeData(color: Colors.white),
+        title: const Text('Trending Movies',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+            )),
+        backgroundColor: const Color.fromRGBO(23, 23, 23, 1),
+      ),
+      backgroundColor: const Color.fromRGBO(18, 18, 18, 1),
       body: BlocBuilder<TrendingMoviesBloc, TrendingMoviesState>(
         builder: (context, state) {
           if (state is TrendingMoviesLoaded) {
@@ -51,7 +63,7 @@ class _TrendingMoviesScreenState extends State<TrendingMoviesScreen> {
             showNoMoreItemsIndicatorAsGridChild: true,
             pagingController: _pagingController,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              childAspectRatio: 1,
+              childAspectRatio: 0.75,
               mainAxisSpacing: 8,
               crossAxisSpacing: 8,
               crossAxisCount: 2,
@@ -59,20 +71,35 @@ class _TrendingMoviesScreenState extends State<TrendingMoviesScreen> {
             builderDelegate: PagedChildBuilderDelegate<Movie>(
                 animateTransitions: true,
                 firstPageProgressIndicatorBuilder: (context) {
-                  return const Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.white,
+                  return const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                      ),
                     ),
                   );
                 },
                 newPageProgressIndicatorBuilder: (context) {
                   return const Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.white,
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                      ),
                     ),
                   );
                 },
-                itemBuilder: (context, item, index) => MovieCard(item)),
+                itemBuilder: (context, item, index) => MovieCard(
+                      item,
+                      () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => SingleMovieScreen(
+                            movie: item,
+                          ),
+                        ));
+                      },
+                    )),
           );
         },
       ),

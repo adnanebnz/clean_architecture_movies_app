@@ -28,3 +28,5 @@ samples, guidance on mobile development, and a full API reference.
 - [ ] add launcher icon
 - [ ] add TV series section
 - [ ] add discover https://developer.themoviedb.org/reference/discover-movie (for movie and tv)
+- [ ] export colors and theme options into a file
+- https://developer.themoviedb.org/reference/movie-details

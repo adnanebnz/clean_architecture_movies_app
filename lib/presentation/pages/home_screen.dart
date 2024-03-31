@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies_app/presentation/bloc/genres_bloc/genres_bloc.dart';
 import 'package:movies_app/presentation/bloc/popular_movies/popular_movies_bloc.dart';
 import 'package:movies_app/presentation/bloc/trending_movies/trending_movies_bloc.dart';
 import 'package:movies_app/presentation/bloc/trending_movies/trending_movies_state.dart';
@@ -53,7 +54,7 @@ class HomeScreen extends StatelessWidget {
             children: [
               // Default Image
               Container(
-                height: 290,
+                height: 180,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: NetworkImage(
@@ -65,7 +66,55 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(
                 height: 30,
               ),
-
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 12.0),
+                child: Text(
+                  "Genres",
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              BlocBuilder<GenresBloc, GenresState>(
+                builder: (context, state) {
+                  if (state is GenresLoading) {
+                    return const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                        ),
+                      ),
+                    );
+                  } else if (state is GenresLoaded) {
+                    return SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: state.genres.map((genre) {
+                          return Container(
+                            margin: const EdgeInsets.all(6),
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.white24,
+                            ),
+                            child: Text(
+                              genre.name,
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 16),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    );
+                  }
+                  return const SizedBox();
+                },
+              ),
               // Trending Movies
               Row(
                 children: [
@@ -106,8 +155,13 @@ class HomeScreen extends StatelessWidget {
                 child: BlocBuilder<TrendingMoviesBloc, TrendingMoviesState>(
                   builder: (context, state) {
                     if (state is TrendingMoviesLoading) {
-                      return const CircularProgressIndicator(
-                        color: Colors.white,
+                      return const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                          ),
+                        ),
                       );
                     } else if (state is TrendingMoviesLoaded) {
                       return MoviesList(movies: state.movies);
@@ -162,8 +216,13 @@ class HomeScreen extends StatelessWidget {
                 child: BlocBuilder<PopularMoviesBloc, PopularMoviesState>(
                   builder: (context, state) {
                     if (state is PopularMoviesLoading) {
-                      return const CircularProgressIndicator(
-                        color: Colors.white,
+                      return const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                          ),
+                        ),
                       );
                     } else if (state is PopularMoviesLoaded) {
                       return MoviesList(movies: state.movies);

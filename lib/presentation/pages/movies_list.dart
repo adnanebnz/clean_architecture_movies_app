@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movies_app/domain/entities/movie.dart';
+import 'package:movies_app/presentation/pages/single_movie_screen.dart';
 import 'package:movies_app/presentation/widgets/movie_card.dart';
 
 class MoviesList extends StatelessWidget {
@@ -14,7 +15,16 @@ class MoviesList extends StatelessWidget {
       child: Row(
         children: List.generate(movies.length, (index) {
           final movie = movies[index];
-          return MovieCard(movie);
+          return MovieCard(
+            movie,
+            () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => SingleMovieScreen(
+                  movie: movie,
+                ),
+              ));
+            },
+          );
         }),
       ),
     );

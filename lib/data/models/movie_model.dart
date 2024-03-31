@@ -8,6 +8,7 @@ class MovieModel {
   final String releaseDate;
   final double voteAverage;
   final int voteCount;
+  final bool isAdult;
 
   MovieModel({
     required this.id,
@@ -17,6 +18,7 @@ class MovieModel {
     required this.releaseDate,
     required this.voteAverage,
     required this.voteCount,
+    required this.isAdult,
   });
 
   factory MovieModel.fromJson(Map<String, dynamic> json) {
@@ -28,6 +30,7 @@ class MovieModel {
       releaseDate: json['release_date'],
       voteAverage: json['vote_average'],
       voteCount: json['vote_count'],
+      isAdult: json['adult'],
     );
   }
 
@@ -40,6 +43,7 @@ class MovieModel {
       'release_date': releaseDate,
       'vote_average': voteAverage,
       'vote_count': voteCount,
+      'adult': isAdult,
     };
   }
 
@@ -53,6 +57,7 @@ class MovieModel {
       releaseDate: releaseDate,
       voteAverage: voteAverage,
       voteCount: voteCount,
+      isAdult: isAdult,
     );
   }
 }

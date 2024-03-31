@@ -19,6 +19,11 @@ class DioManager {
       'api_key': apiKey,
     },
   ))
+    ..interceptors.add(PrettyDioLogger(
+      responseBody: kDebugMode,
+      error: kDebugMode,
+      compact: !kDebugMode,
+    ))
     ..interceptors.add(InterceptorsWrapper(
       onError: (DioException error, ErrorInterceptorHandler handler) {
         DioExceptions dioExceptions = DioExceptions.fromDioError(error);
@@ -33,9 +38,6 @@ class DioManager {
     ));
 
   static Dio getDio() {
-    if (kDebugMode) {
-      _dio.interceptors.add(PrettyDioLogger());
-    }
     return _dio;
   }
 }

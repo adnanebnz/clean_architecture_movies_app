@@ -16,7 +16,7 @@ class PopularMoviesBloc extends Bloc<PopularMoviesEvent, PopularMoviesState> {
       emit(PopularMoviesLoading());
       final failureOrMovies = await getPopularMovies(currentPage);
       failureOrMovies.fold(
-          (failure) => emit(PopularMoviesError(failure.toString())),
+          (failure) => emit(PopularMoviesError(failure.message)),
           (movies) => emit(PopularMoviesLoaded(movies)));
     });
     on<FetchNextPage>((event, emit) async {
@@ -24,7 +24,7 @@ class PopularMoviesBloc extends Bloc<PopularMoviesEvent, PopularMoviesState> {
       emit(PopularMoviesLoading());
       final failureOrMovies = await getPopularMovies(currentPage);
       failureOrMovies.fold(
-          (failure) => emit(PopularMoviesError(failure.toString())), (movies) {
+          (failure) => emit(PopularMoviesError(failure.message)), (movies) {
         if (state is PopularMoviesLoaded) {
           final previousState = state as PopularMoviesLoaded;
           final updatedMovies = List<Movie>.from(previousState.movies)

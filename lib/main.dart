@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:movies_app/injection_container.dart';
+import 'package:movies_app/presentation/bloc/genres_bloc/genres_bloc.dart';
 import 'package:movies_app/presentation/bloc/popular_movies/popular_movies_bloc.dart';
 import 'package:movies_app/presentation/bloc/search_movies/search_movies_bloc.dart';
 import 'package:movies_app/presentation/bloc/trending_movies/trending_movies_bloc.dart';
@@ -28,6 +29,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) =>
               getIt<PopularMoviesBloc>()..add(FetchPopularMovies()),
+        ),
+        BlocProvider(
+          create: (context) => getIt<GenresBloc>()..add(FetchGenres()),
         ),
         BlocProvider(
           create: (context) => getIt<SearchMoviesBloc>(),
