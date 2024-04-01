@@ -13,7 +13,9 @@ final class SearchMoviesLoading extends SearchMoviesState {}
 
 final class SearchMoviesLoaded extends SearchMoviesState {
   final List<Movie> movies;
-  const SearchMoviesLoaded(this.movies);
+  final int? nextPageKey;
+
+  const SearchMoviesLoaded(this.movies, this.nextPageKey);
 }
 
 final class SearchMoviesError extends SearchMoviesState {

@@ -25,10 +25,11 @@ class MovieCard extends StatelessWidget {
             children: <Widget>[
               Ink.image(
                 image: NetworkImage(
-                    'https://image.tmdb.org/t/p/w500/${movie.posterPath}'),
+                  movie.posterPath == ""
+                      ? "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg"
+                      : 'https://image.tmdb.org/t/p/w500/${movie.posterPath}',
+                ),
                 fit: BoxFit.cover,
-                height: MediaQuery.of(context).size.height * 0.3,
-                width: MediaQuery.of(context).size.width * 0.6,
               ),
               Positioned(
                 top: 2,

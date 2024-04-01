@@ -4,9 +4,11 @@ import 'package:movies_app/presentation/bloc/genres_bloc/genres_bloc.dart';
 import 'package:movies_app/presentation/bloc/popular_movies/popular_movies_bloc.dart';
 import 'package:movies_app/presentation/bloc/trending_movies/trending_movies_bloc.dart';
 import 'package:movies_app/presentation/bloc/trending_movies/trending_movies_state.dart';
-import 'package:movies_app/presentation/pages/movies_list.dart';
 import 'package:movies_app/presentation/pages/popular_movies_screen.dart';
+import 'package:movies_app/presentation/pages/search_screen.dart';
 import 'package:movies_app/presentation/pages/trending_movies_screen.dart';
+import 'package:movies_app/presentation/widgets/genres_list.dart';
+import 'package:movies_app/presentation/widgets/movies_list.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -18,7 +20,6 @@ class HomeScreen extends StatelessWidget {
         centerTitle: false,
         elevation: 0,
         toolbarHeight: 80,
-        backgroundColor: const Color.fromRGBO(23, 23, 23, 1),
         title: const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -26,23 +27,30 @@ class HomeScreen extends StatelessWidget {
               'Good morning 👋',
               textAlign: TextAlign.start,
               style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             Text(
               'Movies App',
               style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ],
         ),
-        actions: const [
+        actions: [
           Padding(
-            padding: EdgeInsets.all(20),
-            child: Icon(Icons.search, color: Colors.white),
+            padding: const EdgeInsets.all(20),
+            child: IconButton(
+              icon: const Icon(Icons.search),
+              onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SearchScreen(),
+                  )),
+            ),
           ),
         ],
       ),
@@ -70,10 +78,7 @@ class HomeScreen extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 12.0),
                 child: Text(
                   "Genres",
-                  style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
               ),
               const SizedBox(
@@ -85,32 +90,11 @@ class HomeScreen extends StatelessWidget {
                     return const Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Center(
-                        child: CircularProgressIndicator(
-                          color: Colors.white,
-                        ),
+                        child: CircularProgressIndicator(),
                       ),
                     );
                   } else if (state is GenresLoaded) {
-                    return SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: state.genres.map((genre) {
-                          return Container(
-                            margin: const EdgeInsets.all(6),
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.white24,
-                            ),
-                            child: Text(
-                              genre.name,
-                              style: const TextStyle(
-                                  color: Colors.white, fontSize: 16),
-                            ),
-                          );
-                        }).toList(),
-                      ),
-                    );
+                    return GenreList(genres: state.genres);
                   }
                   return const SizedBox();
                 },
@@ -122,10 +106,8 @@ class HomeScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     child: const Text(
                       'Trending Movies',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                   ),
                   const Spacer(),
@@ -158,9 +140,7 @@ class HomeScreen extends StatelessWidget {
                       return const Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Center(
-                          child: CircularProgressIndicator(
-                            color: Colors.white,
-                          ),
+                          child: CircularProgressIndicator(),
                         ),
                       );
                     } else if (state is TrendingMoviesLoaded) {
@@ -183,10 +163,8 @@ class HomeScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     child: const Text(
                       'Popular Movies',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                   ),
                   const Spacer(),
@@ -219,9 +197,7 @@ class HomeScreen extends StatelessWidget {
                       return const Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Center(
-                          child: CircularProgressIndicator(
-                            color: Colors.white,
-                          ),
+                          child: CircularProgressIndicator(),
                         ),
                       );
                     } else if (state is PopularMoviesLoaded) {

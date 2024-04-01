@@ -42,12 +42,9 @@ class _PopularMoviesScreenState extends State<PopularMoviesScreen> {
         iconTheme: const IconThemeData(color: Colors.white),
         title: const Text('Popular Movies',
             style: TextStyle(
-              color: Colors.white,
               fontSize: 20,
             )),
-        backgroundColor: const Color.fromRGBO(23, 23, 23, 1),
       ),
-      backgroundColor: const Color.fromRGBO(18, 18, 18, 1),
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
         child: BlocBuilder<PopularMoviesBloc, PopularMoviesState>(
@@ -87,9 +84,7 @@ class _PopularMoviesScreenState extends State<PopularMoviesScreen> {
                     return const Center(
                       child: Padding(
                         padding: EdgeInsets.all(8.0),
-                        child: CircularProgressIndicator(
-                          color: Colors.white,
-                        ),
+                        child: CircularProgressIndicator(),
                       ),
                     );
                   },

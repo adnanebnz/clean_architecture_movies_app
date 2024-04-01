@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:movies_app/domain/entities/movie.dart';
 
 class SingleMovieScreen extends StatefulWidget {
@@ -16,21 +15,19 @@ class _SingleMovieScreenState extends State<SingleMovieScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          systemOverlayStyle: SystemUiOverlayStyle.light,
-          iconTheme: const IconThemeData(color: Colors.white),
           title: Text(widget.movie.title,
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 20,
               )),
-          backgroundColor: const Color.fromRGBO(23, 23, 23, 1),
         ),
-        backgroundColor: const Color.fromRGBO(18, 18, 18, 1),
         body: SingleChildScrollView(
           child: Column(
             children: [
               Image.network(
-                'https://image.tmdb.org/t/p/w500/${widget.movie.posterPath}',
+                widget.movie.posterPath == ""
+                    ? "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg"
+                    : 'https://image.tmdb.org/t/p/w500/${widget.movie.posterPath}',
                 fit: BoxFit.cover,
                 height: MediaQuery.of(context).size.height * 0.5,
                 width: MediaQuery.of(context).size.width,
@@ -84,13 +81,11 @@ class _SingleMovieScreenState extends State<SingleMovieScreen> {
                                 children: [
                                   const Icon(
                                     Icons.people,
-                                    color: Colors.white,
                                     size: 20,
                                   ),
                                   Text(
                                     widget.movie.voteCount.toString(),
                                     style: const TextStyle(
-                                      color: Colors.white,
                                       fontSize: 18,
                                     ),
                                   ),
@@ -102,7 +97,6 @@ class _SingleMovieScreenState extends State<SingleMovieScreen> {
                         Text(
                           widget.movie.releaseDate,
                           style: const TextStyle(
-                            color: Colors.white,
                             fontSize: 18,
                           ),
                         ),
@@ -120,7 +114,6 @@ class _SingleMovieScreenState extends State<SingleMovieScreen> {
                     Text(
                       widget.movie.overview,
                       style: const TextStyle(
-                        color: Colors.white,
                         fontSize: 16,
                       ),
                     ),

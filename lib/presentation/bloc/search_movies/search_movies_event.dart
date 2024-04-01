@@ -9,5 +9,8 @@ class FetchSearchMovies extends SearchMoviesEvent {
 class FetchNextPage extends SearchMoviesEvent {
   final String query;
   final int pageKey;
-  FetchNextPage(this.query, this.pageKey);
+  final int nextPageKey;
+  FetchNextPage(this.query, this.pageKey, this.nextPageKey);
 }
+
+class ResetSearchMovies extends SearchMoviesEvent {}

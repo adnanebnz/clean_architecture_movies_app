@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:movies_app/domain/entities/movie.dart';
@@ -41,16 +40,11 @@ class _TrendingMoviesScreenState extends State<TrendingMoviesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        systemOverlayStyle: SystemUiOverlayStyle.light,
-        iconTheme: const IconThemeData(color: Colors.white),
         title: const Text('Trending Movies',
             style: TextStyle(
-              color: Colors.white,
               fontSize: 20,
             )),
-        backgroundColor: const Color.fromRGBO(23, 23, 23, 1),
       ),
-      backgroundColor: const Color.fromRGBO(18, 18, 18, 1),
       body: BlocBuilder<TrendingMoviesBloc, TrendingMoviesState>(
         builder: (context, state) {
           if (state is TrendingMoviesLoaded) {
@@ -74,9 +68,7 @@ class _TrendingMoviesScreenState extends State<TrendingMoviesScreen> {
                   return const Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Center(
-                      child: CircularProgressIndicator(
-                        color: Colors.white,
-                      ),
+                      child: CircularProgressIndicator(),
                     ),
                   );
                 },
@@ -84,9 +76,7 @@ class _TrendingMoviesScreenState extends State<TrendingMoviesScreen> {
                   return const Center(
                     child: Padding(
                       padding: EdgeInsets.all(8.0),
-                      child: CircularProgressIndicator(
-                        color: Colors.white,
-                      ),
+                      child: CircularProgressIndicator(),
                     ),
                   );
                 },

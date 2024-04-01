@@ -3,8 +3,8 @@ import 'package:movies_app/domain/entities/movie.dart';
 class MovieModel {
   final int id;
   final String title;
-  final String overview;
-  final String posterPath;
+  String? overview = '';
+  String? posterPath = '';
   final String releaseDate;
   final double voteAverage;
   final int voteCount;
@@ -13,8 +13,8 @@ class MovieModel {
   MovieModel({
     required this.id,
     required this.title,
-    required this.overview,
-    required this.posterPath,
+    this.overview,
+    this.posterPath,
     required this.releaseDate,
     required this.voteAverage,
     required this.voteCount,
@@ -25,8 +25,8 @@ class MovieModel {
     return MovieModel(
       id: json['id'],
       title: json['title'],
-      overview: json['overview'],
-      posterPath: json['poster_path'],
+      overview: json['overview'] ?? '',
+      posterPath: json['poster_path'] ?? '',
       releaseDate: json['release_date'],
       voteAverage: json['vote_average'],
       voteCount: json['vote_count'],
@@ -38,8 +38,8 @@ class MovieModel {
     return {
       'id': id,
       'title': title,
-      'overview': overview,
-      'poster_path': posterPath,
+      'overview': overview ?? '',
+      'poster_path': posterPath ?? '',
       'release_date': releaseDate,
       'vote_average': voteAverage,
       'vote_count': voteCount,
@@ -52,8 +52,8 @@ class MovieModel {
     return Movie(
       id: id,
       title: title,
-      overview: overview,
-      posterPath: posterPath,
+      overview: overview ?? '',
+      posterPath: posterPath ?? '',
       releaseDate: releaseDate,
       voteAverage: voteAverage,
       voteCount: voteCount,
