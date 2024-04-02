@@ -135,19 +135,28 @@ class _SingleMovieScreenState extends State<SingleMovieScreen> {
                       },
                     ),
                     const SizedBox(height: 14),
-                    const Text("Synopsis",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        )),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text("Synopsis",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          )),
+                    ),
                     const SizedBox(height: 8),
-                    Text(
-                      widget.movie.overview,
-                      style: const TextStyle(
-                        fontSize: 16,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text(
+                        widget.movie.overview,
+                        style: const TextStyle(
+                          fontSize: 16,
+                        ),
                       ),
                     ),
+                    const SizedBox(
+                      height: 12,
+                    )
                   ],
                 ),
               ),
