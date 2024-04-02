@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies_app/domain/entities/genre.dart';
 import 'package:movies_app/domain/entities/movie.dart';
+import 'package:movies_app/presentation/bloc/genres_bloc/genres_bloc.dart';
+import 'package:movies_app/presentation/widgets/genres_list.dart';
 
 class SingleMovieScreen extends StatefulWidget {
   const SingleMovieScreen({super.key, required this.movie});
@@ -23,6 +27,7 @@ class _SingleMovieScreenState extends State<SingleMovieScreen> {
         ),
         body: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Image.network(
                 widget.movie.posterPath == ""
@@ -103,6 +108,32 @@ class _SingleMovieScreenState extends State<SingleMovieScreen> {
                       ],
                     ),
                     // is adult
+                    const SizedBox(height: 14),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text("Genres",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          )),
+                    ),
+                    BlocBuilder<GenresBloc, GenresState>(
+                      builder: (context, state) {
+                        if (state is GenresLoaded) {
+                          List<Genre> movieGenres = state.genres
+                              .where((genre) =>
+                                  widget.movie.genreIds.contains(genre.id))
+                              .toList();
+
+                          return GenreList(genres: movieGenres);
+                        } else if (state is GenresError) {
+                          return Text('Error: ${state.message}');
+                        } else {
+                          return const CircularProgressIndicator();
+                        }
+                      },
+                    ),
                     const SizedBox(height: 14),
                     const Text("Synopsis",
                         style: TextStyle(

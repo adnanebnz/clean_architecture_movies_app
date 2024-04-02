@@ -9,12 +9,14 @@ class MovieModel {
   final double voteAverage;
   final int voteCount;
   final bool isAdult;
+  final List<int>? genreIds;
 
   MovieModel({
     required this.id,
     required this.title,
     this.overview,
     this.posterPath,
+    this.genreIds,
     required this.releaseDate,
     required this.voteAverage,
     required this.voteCount,
@@ -31,6 +33,9 @@ class MovieModel {
       voteAverage: json['vote_average'],
       voteCount: json['vote_count'],
       isAdult: json['adult'],
+      genreIds: (json['genre_ids'] as List<dynamic>?)
+          ?.map((item) => item as int)
+          .toList(),
     );
   }
 
@@ -44,6 +49,7 @@ class MovieModel {
       'vote_average': voteAverage,
       'vote_count': voteCount,
       'adult': isAdult,
+      'genre_ids': genreIds,
     };
   }
 
@@ -58,6 +64,7 @@ class MovieModel {
       voteAverage: voteAverage,
       voteCount: voteCount,
       isAdult: isAdult,
+      genreIds: genreIds ?? [],
     );
   }
 }

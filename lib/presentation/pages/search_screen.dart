@@ -17,6 +17,7 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   TextEditingController searchController = TextEditingController();
+  FocusNode searchFocusNode = FocusNode();
   final _pagingController = PagingController<int, Movie>(
     firstPageKey: 1,
   );
@@ -28,7 +29,10 @@ class _SearchScreenState extends State<SearchScreen> {
           .read<SearchMoviesBloc>()
           .add(FetchNextPage(searchController.text, pageKey, pageKey + 1));
     });
-    searchController.addListener(_onSearchChanged);
+    searchController.addListener(() {
+      EasyDebounce.debounce(
+          'search', const Duration(milliseconds: 800), _onSearchChanged);
+    });
     super.initState();
   }
 
@@ -36,19 +40,18 @@ class _SearchScreenState extends State<SearchScreen> {
   void dispose() {
     searchController.removeListener(_onSearchChanged);
     searchController.dispose();
+    searchFocusNode.dispose();
     super.dispose();
   }
 
   void _onSearchChanged() {
     final text = searchController.text;
-    if (text.isEmpty) {
+    if (text.isEmpty || !searchFocusNode.hasFocus) {
       BlocProvider.of<SearchMoviesBloc>(context).add(ResetSearchMovies());
+      _pagingController.refresh();
     } else {
-      EasyDebounce.cancel('search');
-      EasyDebounce.debounce('search', const Duration(milliseconds: 800), () {
-        BlocProvider.of<SearchMoviesBloc>(context).add(FetchSearchMovies(text));
-        _pagingController.refresh();
-      });
+      BlocProvider.of<SearchMoviesBloc>(context).add(FetchSearchMovies(text));
+      _pagingController.refresh();
     }
   }
 

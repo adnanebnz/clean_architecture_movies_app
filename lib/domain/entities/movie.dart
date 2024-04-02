@@ -9,6 +9,7 @@ class Movie extends Equatable {
   final double voteAverage;
   final int voteCount;
   final bool isAdult;
+  final List<int> genreIds;
 
   const Movie({
     required this.id,
@@ -19,6 +20,7 @@ class Movie extends Equatable {
     required this.voteAverage,
     required this.voteCount,
     required this.isAdult,
+    required this.genreIds,
   });
 
   @override
@@ -30,6 +32,7 @@ class Movie extends Equatable {
         releaseDate,
         voteAverage,
         voteCount,
-        isAdult
+        isAdult,
+        genreIds,
       ];
 }
