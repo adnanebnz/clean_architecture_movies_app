@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:movies_app/data/models/movie_model.dart';
 
 class Movie extends Equatable {
   final int id;
@@ -22,6 +23,17 @@ class Movie extends Equatable {
     required this.isAdult,
     required this.genreIds,
   });
+
+  MovieModel toModel() {
+    return MovieModel(
+      id: id,
+      title: title,
+      releaseDate: releaseDate,
+      voteAverage: voteAverage,
+      voteCount: voteCount,
+      isAdult: isAdult,
+    );
+  }
 
   @override
   List<Object?> get props => [

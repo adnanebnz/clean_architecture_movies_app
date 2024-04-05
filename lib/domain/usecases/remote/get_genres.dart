@@ -1,6 +1,6 @@
 import 'package:movies_app/core/types/typedef.dart';
 import 'package:movies_app/domain/entities/genre.dart';
-import 'package:movies_app/domain/repositories/genre_repository.dart';
+import 'package:movies_app/domain/repositories/remote/genre_repository.dart';
 
 class GetGenres {
   final GenreRepository repository;

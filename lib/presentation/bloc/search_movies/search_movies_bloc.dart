@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:movies_app/domain/entities/movie.dart';
-import 'package:movies_app/domain/usecases/search_movie.dart';
+import 'package:movies_app/domain/usecases/remote/search_movie.dart';
 import 'package:movies_app/presentation/bloc/search_movies/search_movies_event.dart';
 
 part 'search_movies_state.dart';

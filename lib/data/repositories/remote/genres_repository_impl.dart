@@ -1,10 +1,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:movies_app/core/exceptions/Failure.dart';
 import 'package:movies_app/core/types/typedef.dart';
-import 'package:movies_app/data/datasources/genres_remote_data_source.dart';
+import 'package:movies_app/data/datasources/remote/genres_remote_data_source.dart';
 import 'package:movies_app/data/models/genre_model.dart';
 import 'package:movies_app/domain/entities/genre.dart';
-import 'package:movies_app/domain/repositories/genre_repository.dart';
+import 'package:movies_app/domain/repositories/remote/genre_repository.dart';
 
 class GenreRepositoryImpl implements GenreRepository {
   final GenresRemoteDataSource remoteDataSource;

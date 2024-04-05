@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:movies_app/core/exceptions/Failure.dart';
 import 'package:movies_app/core/exceptions/dio_exception.dart';
 import 'package:movies_app/core/managers/dio_manager.dart';
-import 'package:movies_app/data/datasources/movies_remote_data_source.dart';
+import 'package:movies_app/data/datasources/remote/movies_remote_data_source.dart';
 import 'package:movies_app/data/models/movie_model.dart';
 
 class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource {
