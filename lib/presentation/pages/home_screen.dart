@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/presentation/bloc/genres_bloc/genres_bloc.dart';
 import 'package:movies_app/presentation/bloc/popular_movies/popular_movies_bloc.dart';
 import 'package:movies_app/presentation/bloc/trending_movies/trending_movies_bloc.dart';
 import 'package:movies_app/presentation/bloc/trending_movies/trending_movies_state.dart';
+import 'package:movies_app/presentation/pages/local_fav_movies_screen.dart';
 import 'package:movies_app/presentation/pages/popular_movies_screen.dart';
 import 'package:movies_app/presentation/pages/search_screen.dart';
 import 'package:movies_app/presentation/pages/trending_movies_screen.dart';
@@ -42,9 +44,9 @@ class HomeScreen extends StatelessWidget {
         ),
         actions: [
           Padding(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
             child: IconButton(
-              icon: const Icon(Icons.search),
+              icon: const Icon(CupertinoIcons.search),
               onPressed: () => Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -52,6 +54,16 @@ class HomeScreen extends StatelessWidget {
                   )),
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+            child: IconButton(
+              icon: const Icon(CupertinoIcons.heart),
+              onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const LocalFavMoviesScreen())),
+            ),
+          )
         ],
       ),
       body: Container(

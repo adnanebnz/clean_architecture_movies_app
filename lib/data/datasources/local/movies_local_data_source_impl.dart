@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:get_storage/get_storage.dart';
 import 'package:movies_app/core/exceptions/Failure.dart';
 import 'package:movies_app/data/datasources/local/movies_local_data_source.dart';
@@ -7,15 +9,16 @@ class MovieslocalDataSourceImpl implements MoviesLocalDataSource {
   final GetStorage box;
 
   MovieslocalDataSourceImpl({required this.box});
-  // TODO INJECT DEPENDENCY
 
   @override
   Future<void> addFavMovie(MovieModel movie) async {
     try {
       List favMovies = box.read('favMovies') ?? [];
+      log(favMovies.toString());
       favMovies.add(movie.toJson());
       await box.write('favMovies', favMovies);
     } catch (e) {
+      log(e.toString());
       throw Failure(message: 'Failed to add movie to favorites: $e');
     }
   }
@@ -34,8 +37,10 @@ class MovieslocalDataSourceImpl implements MoviesLocalDataSource {
   @override
   Future<List<MovieModel>> getFavMovies(int page) async {
     try {
-      List favMovies = box.read('favMovies') ?? [];
-      return favMovies.map((movie) => MovieModel.fromJson(movie)).toList();
+      final List<dynamic> jsonMovies = box.read('favMovies') ?? [];
+      final List<MovieModel> movies =
+          jsonMovies.map((json) => MovieModel.fromJson(json)).toList();
+      return movies;
     } catch (e) {
       throw Failure(message: 'Failed to get favorite movies: $e');
     }
@@ -44,8 +49,10 @@ class MovieslocalDataSourceImpl implements MoviesLocalDataSource {
   @override
   Future<List<MovieModel>> getToWatchMovies(int page) async {
     try {
-      List watchMovies = box.read('watchMovies') ?? [];
-      return watchMovies.map((movie) => MovieModel.fromJson(movie)).toList();
+      final List<dynamic> jsonMovies = box.read('watchMovies') ?? [];
+      final List<MovieModel> movies =
+          jsonMovies.map((json) => MovieModel.fromJson(json)).toList();
+      return movies;
     } catch (e) {
       throw Failure(message: 'Failed to get movies to watch: $e');
     }
@@ -76,11 +83,12 @@ class MovieslocalDataSourceImpl implements MoviesLocalDataSource {
   @override
   Future<List<MovieModel>> searchFavMovies(String query) async {
     try {
-      List favMovies = box.read('favMovies') ?? [];
-      return favMovies
+      final List<dynamic> jsonMovies = box.read('favMovies') ?? [];
+      final List<MovieModel> movies = jsonMovies
           .map((movie) => MovieModel.fromJson(movie))
           .where((movie) => movie.title.contains(query))
           .toList();
+      return movies;
     } catch (e) {
       throw Failure(message: 'Failed to search favorite movies: $e');
     }

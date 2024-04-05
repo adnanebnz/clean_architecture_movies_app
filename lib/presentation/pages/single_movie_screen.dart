@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/domain/entities/genre.dart';
 import 'package:movies_app/domain/entities/movie.dart';
 import 'package:movies_app/presentation/bloc/genres_bloc/genres_bloc.dart';
+import 'package:movies_app/presentation/bloc/save_local_fav_movies/save_local_fav_movies_bloc.dart';
 import 'package:movies_app/presentation/widgets/genres_list.dart';
 
 class SingleMovieScreen extends StatefulWidget {
@@ -108,7 +109,57 @@ class _SingleMovieScreenState extends State<SingleMovieScreen> {
                       ],
                     ),
                     // is adult
-                    const SizedBox(height: 14),
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        BlocBuilder<SaveLocalFavMoviesBloc,
+                            SaveLocalFavMoviesState>(
+                          builder: (context, state) {
+                            return ElevatedButton(
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        Colors.white),
+                                foregroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        Colors.black),
+                                overlayColor:
+                                    MaterialStateProperty.resolveWith<Color?>(
+                                  (Set<MaterialState> states) {
+                                    if (states
+                                        .contains(MaterialState.hovered)) {
+                                      return Colors.white.withOpacity(0.04);
+                                    }
+                                    if (states
+                                            .contains(MaterialState.focused) ||
+                                        states
+                                            .contains(MaterialState.pressed)) {
+                                      return Colors.white.withOpacity(0.12);
+                                    }
+                                    return null; // Defer to the widget's default.
+                                  },
+                                ),
+                                shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18.0),
+                                    side: const BorderSide(color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                              onPressed: () {
+                                context.read<SaveLocalFavMoviesBloc>().add(
+                                    SaveLocalFavMoviesEventSave(widget.movie));
+                              },
+                              child: const Text('Add to Favorites'),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 8.0),
                       child: Text("Genres",
@@ -118,6 +169,7 @@ class _SingleMovieScreenState extends State<SingleMovieScreen> {
                             fontWeight: FontWeight.bold,
                           )),
                     ),
+                    // ADD MOVIE TO FAV
                     BlocBuilder<GenresBloc, GenresState>(
                       builder: (context, state) {
                         if (state is GenresLoaded) {

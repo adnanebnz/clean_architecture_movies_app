@@ -32,6 +32,9 @@ class Movie extends Equatable {
       voteAverage: voteAverage,
       voteCount: voteCount,
       isAdult: isAdult,
+      posterPath: posterPath,
+      overview: overview,
+      genreIds: genreIds,
     );
   }
 

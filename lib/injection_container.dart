@@ -1,13 +1,13 @@
 import 'package:get_it/get_it.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:movies_app/core/managers/dio_manager.dart';
+import 'package:movies_app/core/managers/get_storage_manager.dart';
 import 'package:movies_app/data/datasources/local/movies_local_data_source.dart';
 import 'package:movies_app/data/datasources/local/movies_local_data_source_impl.dart';
 import 'package:movies_app/data/datasources/remote/genres_remote_data_source.dart';
 import 'package:movies_app/data/datasources/remote/genres_remote_data_source_impl.dart';
 import 'package:movies_app/data/datasources/remote/movies_remote_data_source.dart';
 import 'package:movies_app/data/datasources/remote/movies_remote_data_sources_impl.dart';
-import 'package:movies_app/data/repositories/local/movies_repository_impl.dart';
+import 'package:movies_app/data/repositories/local/local_movies_repository_impl.dart';
 import 'package:movies_app/data/repositories/remote/genres_repository_impl.dart';
 import 'package:movies_app/data/repositories/remote/movies_repository_impl.dart';
 import 'package:movies_app/domain/repositories/local/local_movie_repository.dart';
@@ -80,5 +80,5 @@ void init() {
   // Dio service
   getIt.registerLazySingleton(() => DioManager.getDio());
   // GetStorage service
-  getIt.registerLazySingletonAsync(() async => await GetStorage.init());
+  getIt.registerLazySingleton(() => GetStorageManager.getStorage());
 }
