@@ -1,5 +1,4 @@
 import 'package:easy_debounce/easy_debounce.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -67,11 +66,15 @@ class _SearchScreenState extends State<SearchScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CupertinoTextField(
-              padding: EdgeInsets.all(16),
+            TextField(
               autocorrect: true,
               cursorColor: Colors.white,
               controller: searchController,
+              decoration: const InputDecoration(
+                focusColor: Colors.white,
+                hoverColor: Colors.white,
+                hintText: 'Search',
+              ),
             ),
             const SizedBox(height: 20),
             Expanded(

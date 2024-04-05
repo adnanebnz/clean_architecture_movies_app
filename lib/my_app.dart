@@ -56,6 +56,39 @@ class MyApp extends StatelessWidget {
           ),
           colorScheme: ColorScheme.fromSeed(
               seedColor: Colors.white, brightness: Brightness.dark),
+          inputDecorationTheme: InputDecorationTheme(
+            floatingLabelStyle: const TextStyle(color: Colors.white),
+            contentPadding: const EdgeInsets.all(15),
+            isDense: false,
+            enabledBorder: OutlineInputBorder(
+              borderRadius: const BorderRadius.all(Radius.circular(15)),
+              borderSide: BorderSide(
+                color: Colors.white.withAlpha(100),
+                width: 1,
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: const BorderRadius.all(Radius.circular(15)),
+              borderSide: BorderSide(
+                color: Colors.white.withAlpha(100),
+                width: 1,
+              ),
+            ),
+            errorBorder: const OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(15)),
+              borderSide: BorderSide(
+                color: Colors.red,
+                width: 1,
+              ),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderRadius: const BorderRadius.all(Radius.circular(15)),
+              borderSide: BorderSide(
+                color: Colors.white.withAlpha(100),
+                width: 1,
+              ),
+            ),
+          ),
         ),
         home: const HomeScreen(),
       ),
