@@ -32,9 +32,9 @@ class LocalMovieRepositoryImpl implements LocalMovieRepository {
   }
 
   @override
-  FutureEither<List<Movie>> getFavMovies(int page) async {
+  FutureEither<List<Movie>> getFavMovies() async {
     try {
-      List<MovieModel> moviesModels = await localDataSource.getFavMovies(page);
+      List<MovieModel> moviesModels = await localDataSource.getFavMovies();
       List<Movie> movies = moviesModels.map((e) => e.toEntity()).toList();
       return Right(movies);
     } catch (e) {
@@ -43,10 +43,9 @@ class LocalMovieRepositoryImpl implements LocalMovieRepository {
   }
 
   @override
-  FutureEither<List<Movie>> getToWatchMovies(int page) async {
+  FutureEither<List<Movie>> getToWatchMovies() async {
     try {
-      List<MovieModel> moviesModels =
-          await localDataSource.getToWatchMovies(page);
+      List<MovieModel> moviesModels = await localDataSource.getToWatchMovies();
       List<Movie> movies = moviesModels.map((e) => e.toEntity()).toList();
       return Right(movies);
     } catch (e) {

@@ -36,8 +36,10 @@ class MyApp extends StatelessWidget {
           create: (context) => getIt<SaveLocalFavMoviesBloc>(),
         ),
         BlocProvider(
-          create: (context) => getIt<GetLocalFavMoviesBloc>(),
-        ),
+            create: (context) => getIt<GetLocalFavMoviesBloc>()
+              ..add(
+                FetchFavMovies(),
+              )),
         BlocProvider(
           create: (context) => getIt<SearchLocalFavMoviesBloc>(),
         )

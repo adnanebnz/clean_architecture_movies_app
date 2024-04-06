@@ -11,12 +11,12 @@ class GetLocalFavMoviesBloc
   GetFavMovies getFavMovies;
   GetLocalFavMoviesBloc({required this.getFavMovies})
       : super(GetLocalFavMoviesInitial()) {
-    on<GetLocalFavMoviesEventGet>((event, emit) async {
+    on<FetchFavMovies>((event, emit) async {
       emit(GetLocalFavMoviesLoading());
-      final result = await getFavMovies(1);
-      result.fold(
+      final failureOrMovies = await getFavMovies();
+      failureOrMovies.fold(
         (failure) => emit(GetLocalFavMoviesError(failure.message)),
-        (movies) => emit(GetLocalFavMoviesSuccess(movies)),
+        (movies) => emit(GetLocalFavMoviesLoaded(movies)),
       );
     });
   }

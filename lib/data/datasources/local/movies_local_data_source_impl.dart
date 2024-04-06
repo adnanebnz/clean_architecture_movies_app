@@ -35,7 +35,7 @@ class MovieslocalDataSourceImpl implements MoviesLocalDataSource {
   }
 
   @override
-  Future<List<MovieModel>> getFavMovies(int page) async {
+  Future<List<MovieModel>> getFavMovies() async {
     try {
       final List<dynamic> jsonMovies = box.read('favMovies') ?? [];
       final List<MovieModel> movies =
@@ -47,7 +47,7 @@ class MovieslocalDataSourceImpl implements MoviesLocalDataSource {
   }
 
   @override
-  Future<List<MovieModel>> getToWatchMovies(int page) async {
+  Future<List<MovieModel>> getToWatchMovies() async {
     try {
       final List<dynamic> jsonMovies = box.read('watchMovies') ?? [];
       final List<MovieModel> movies =

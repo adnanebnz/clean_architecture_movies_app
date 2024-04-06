@@ -7,7 +7,7 @@ class GetFavMovies {
 
   GetFavMovies(this.localRepository);
 
-  FutureEither<List<Movie>> call(int page) async {
-    return await localRepository.getFavMovies(page);
+  FutureEither<List<Movie>> call() async {
+    return await localRepository.getFavMovies();
   }
 }
