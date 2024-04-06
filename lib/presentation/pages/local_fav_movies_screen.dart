@@ -1,53 +1,109 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movies_app/domain/entities/movie.dart';
+import 'package:movies_app/presentation/bloc/delete_local_fav_movies/delete_local_fav_movies_bloc.dart';
 import 'package:movies_app/presentation/bloc/get_local_fav_movies/get_local_fav_movies_bloc.dart';
 import 'package:movies_app/presentation/pages/single_movie_screen.dart';
 import 'package:movies_app/presentation/widgets/movie_card.dart';
 
-class LocalFavMoviesScreen extends StatelessWidget {
+class LocalFavMoviesScreen extends StatefulWidget {
   const LocalFavMoviesScreen({super.key});
 
   @override
+  State<LocalFavMoviesScreen> createState() => _LocalFavMoviesScreenState();
+}
+
+class _LocalFavMoviesScreenState extends State<LocalFavMoviesScreen> {
+  List<Movie> selectedMovies = [];
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(seconds: 1), () {
+      context.read<GetLocalFavMoviesBloc>().add(FetchFavMovies());
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    context.read<GetLocalFavMoviesBloc>().add(FetchFavMovies());
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Favorite movies"),
+        title: selectedMovies.isEmpty
+            ? const Text("Favorite Movies")
+            : Text("${selectedMovies.length} selected"),
+        actions: [
+          if (selectedMovies.isNotEmpty)
+            BlocBuilder<DeleteLocalFavMoviesBloc, DeleteLocalFavMoviesState>(
+              builder: (context, state) {
+                if (state is DeleteLocalFavMoviesLoading) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                if (state is DeleteLocalFavMoviesError) {
+                  return Text(state.message);
+                }
+                return IconButton(
+                  icon: const Icon(Icons.delete),
+                  onPressed: () {
+                    context
+                        .read<DeleteLocalFavMoviesBloc>()
+                        .add(DeleteFavMovies(selectedMovies));
+                    setState(() {
+                      selectedMovies.clear();
+                    });
+                  },
+                );
+              },
+            ),
+        ],
       ),
-      body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
-        child: BlocConsumer<GetLocalFavMoviesBloc, GetLocalFavMoviesState>(
-          listener: (context, state) {
-            if (state is GetLocalFavMoviesError) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.message),
-                ),
-              );
-            }
-          },
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: BlocBuilder<GetLocalFavMoviesBloc, GetLocalFavMoviesState>(
           builder: (context, state) {
             if (state is GetLocalFavMoviesLoading) {
-              return const CircularProgressIndicator();
+              return const Center(child: CircularProgressIndicator());
             } else if (state is GetLocalFavMoviesError) {
-              return Center(child: Text(state.message));
+              return Text('Error: ${state.message}');
             } else if (state is GetLocalFavMoviesLoaded) {
               return GridView.builder(
-                itemCount: state.movies.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  childAspectRatio: 0.75,
+                  crossAxisCount: 2,
                   mainAxisSpacing: 8,
                   crossAxisSpacing: 8,
-                  crossAxisCount: 2,
+                  childAspectRatio: 0.75,
                 ),
+                itemCount: state.movies.length,
                 itemBuilder: (context, index) {
                   final movie = state.movies[index];
-                  return MovieCard(
-                    movie,
-                    () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SingleMovieScreen(movie: movie),
+                  return GestureDetector(
+                    onLongPress: () {
+                      setState(() {
+                        if (selectedMovies.contains(movie)) {
+                          selectedMovies.remove(movie);
+                        } else {
+                          selectedMovies.add(movie);
+                        }
+                      });
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: selectedMovies.contains(movie)
+                            ? Border.all(
+                                color: Colors.blue,
+                                width: 1.5,
+                              )
+                            : null,
+                      ),
+                      child: MovieCard(
+                        movie,
+                        () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  SingleMovieScreen(movie: movie)),
+                        ),
                       ),
                     ),
                   );

@@ -25,6 +25,8 @@ dependencies:
   easy_debounce: ^2.0.3
   shimmer: ^3.0.0
   get_storage: ^2.1.1
+  youtube_data_api: ^1.0.4
+  youtube_player_flutter: ^9.0.0
 
 dev_dependencies:
   flutter_test:

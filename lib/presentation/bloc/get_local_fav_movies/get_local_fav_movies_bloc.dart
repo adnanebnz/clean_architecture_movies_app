@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:movies_app/domain/entities/movie.dart';
@@ -10,13 +12,18 @@ class GetLocalFavMoviesBloc
     extends Bloc<GetLocalFavMoviesEvent, GetLocalFavMoviesState> {
   GetFavMovies getFavMovies;
   GetLocalFavMoviesBloc({required this.getFavMovies})
-      : super(GetLocalFavMoviesInitial()) {
+      : super(GetLocalFavMoviesLoading()) {
     on<FetchFavMovies>((event, emit) async {
       emit(GetLocalFavMoviesLoading());
       final failureOrMovies = await getFavMovies();
       failureOrMovies.fold(
-        (failure) => emit(GetLocalFavMoviesError(failure.message)),
-        (movies) => emit(GetLocalFavMoviesLoaded(movies)),
+        (failure) {
+          emit(GetLocalFavMoviesError(failure.message));
+        },
+        (movies) {
+          log('Loaded ${movies.length} movies');
+          emit(GetLocalFavMoviesLoaded(movies));
+        },
       );
     });
   }

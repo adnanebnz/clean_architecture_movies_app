@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/injection_container.dart';
+import 'package:movies_app/presentation/bloc/delete_local_fav_movies/delete_local_fav_movies_bloc.dart';
 import 'package:movies_app/presentation/bloc/genres_bloc/genres_bloc.dart';
 import 'package:movies_app/presentation/bloc/get_local_fav_movies/get_local_fav_movies_bloc.dart';
 import 'package:movies_app/presentation/bloc/popular_movies/popular_movies_bloc.dart';
@@ -36,13 +37,14 @@ class MyApp extends StatelessWidget {
           create: (context) => getIt<SaveLocalFavMoviesBloc>(),
         ),
         BlocProvider(
-            create: (context) => getIt<GetLocalFavMoviesBloc>()
-              ..add(
-                FetchFavMovies(),
-              )),
-        BlocProvider(
           create: (context) => getIt<SearchLocalFavMoviesBloc>(),
-        )
+        ),
+        BlocProvider(
+            create: (context) =>
+                getIt<GetLocalFavMoviesBloc>()..add(FetchFavMovies())),
+        BlocProvider(
+          create: (context) => getIt<DeleteLocalFavMoviesBloc>(),
+        ),
       ],
       child: MaterialApp(
         title: 'Movie App',

@@ -44,7 +44,7 @@ class HomeScreen extends StatelessWidget {
         ),
         actions: [
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 4),
             child: IconButton(
               icon: const Icon(CupertinoIcons.search),
               onPressed: () => Navigator.push(
@@ -55,7 +55,7 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 4),
             child: IconButton(
               icon: const Icon(CupertinoIcons.heart),
               onPressed: () => Navigator.push(
