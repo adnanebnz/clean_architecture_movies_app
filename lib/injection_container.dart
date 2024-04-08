@@ -1,12 +1,15 @@
 import 'package:get_it/get_it.dart';
+import 'package:hive/hive.dart';
 import 'package:movies_app/core/managers/dio_manager.dart';
 import 'package:movies_app/core/managers/get_storage_manager.dart';
+import 'package:movies_app/core/managers/hive_manager';
 import 'package:movies_app/data/datasources/local/movies_local_data_source.dart';
 import 'package:movies_app/data/datasources/local/movies_local_data_source_impl.dart';
 import 'package:movies_app/data/datasources/remote/genres_remote_data_source.dart';
 import 'package:movies_app/data/datasources/remote/genres_remote_data_source_impl.dart';
 import 'package:movies_app/data/datasources/remote/movies_remote_data_source.dart';
 import 'package:movies_app/data/datasources/remote/movies_remote_data_sources_impl.dart';
+import 'package:movies_app/data/models/movie_model.dart';
 import 'package:movies_app/data/repositories/local/local_movies_repository_impl.dart';
 import 'package:movies_app/data/repositories/remote/genres_repository_impl.dart';
 import 'package:movies_app/data/repositories/remote/movies_repository_impl.dart';
@@ -36,7 +39,7 @@ import 'package:movies_app/presentation/bloc/trending_movies/trending_movies_blo
 
 final getIt = GetIt.instance;
 
-void init() {
+void init() async {
   // Bloc
   getIt.registerFactory(() => PopularMoviesBloc(getPopularMovies: getIt()));
   getIt.registerFactory(() => TrendingMoviesBloc(getTrendingMovies: getIt()));
@@ -87,4 +90,7 @@ void init() {
   getIt.registerLazySingleton(() => DioManager.getDio());
   // GetStorage service
   getIt.registerLazySingleton(() => GetStorageManager.getStorage());
+  // Hive Boxes
+  final moviesBox = await HiveManager.getMoviesBox();
+  getIt.registerLazySingleton<Box<MovieModel>>(() => moviesBox);
 }

@@ -1,14 +1,27 @@
+import 'package:hive/hive.dart';
 import 'package:movies_app/domain/entities/movie.dart';
 
+part 'movie_model.g.dart';
+
+@HiveType(typeId: 0)
 class MovieModel {
+  @HiveField(0)
   final int id;
+  @HiveField(1)
   final String title;
+  @HiveField(2)
   String? overview = '';
+  @HiveField(3)
   String? posterPath = '';
+  @HiveField(4)
   final String releaseDate;
+  @HiveField(5)
   final double voteAverage;
+  @HiveField(6)
   final int voteCount;
+  @HiveField(7)
   final bool isAdult;
+  @HiveField(8)
   final List<int>? genreIds;
 
   MovieModel({
