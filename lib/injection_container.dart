@@ -1,8 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
 import 'package:movies_app/core/managers/dio_manager.dart';
-import 'package:movies_app/core/managers/get_storage_manager.dart';
-import 'package:movies_app/core/managers/hive_manager';
+import 'package:movies_app/core/managers/hive_manager.dart';
 import 'package:movies_app/data/datasources/local/movies_local_data_source.dart';
 import 'package:movies_app/data/datasources/local/movies_local_data_source_impl.dart';
 import 'package:movies_app/data/datasources/remote/genres_remote_data_source.dart';
@@ -89,7 +88,7 @@ void init() async {
   // Dio service
   getIt.registerLazySingleton(() => DioManager.getDio());
   // GetStorage service
-  getIt.registerLazySingleton(() => GetStorageManager.getStorage());
+  // getIt.registerLazySingleton(() => GetStorageManager.getStorage());
   // Hive Boxes
   final moviesBox = await HiveManager.getMoviesBox();
   getIt.registerLazySingleton<Box<MovieModel>>(() => moviesBox);
