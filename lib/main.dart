@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:movies_app/core/managers/hive_manager';
+import 'package:movies_app/core/managers/hive_manager.dart';
 import 'package:movies_app/injection_container.dart';
 import 'package:movies_app/my_app.dart';
 
