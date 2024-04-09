@@ -59,50 +59,60 @@ class _LocalFavMoviesScreenState extends State<LocalFavMoviesScreen> {
               ],
             ),
             body: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 8,
-                  crossAxisSpacing: 8,
-                  childAspectRatio: 0.75,
-                ),
-                itemCount: state.movies.length,
-                itemBuilder: (context, index) {
-                  final movie = state.movies[index];
-                  return GestureDetector(
-                    onLongPress: () {
-                      setState(() {
-                        if (selectedMovies.contains(movie)) {
-                          selectedMovies.remove(movie);
-                        } else {
-                          selectedMovies.add(movie);
-                        }
-                      });
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: selectedMovies.contains(movie)
-                            ? Border.all(
-                                color: Colors.blue,
-                                width: 1.5,
-                              )
-                            : null,
-                      ),
-                      child: MovieCard(
-                        movie,
-                        () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  SingleMovieScreen(movie: movie)),
+                padding: const EdgeInsets.all(8.0),
+                child: state.movies.length != 0
+                    ? GridView.builder(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 8,
+                          crossAxisSpacing: 8,
+                          childAspectRatio: 0.75,
                         ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
+                        itemCount: state.movies.length,
+                        itemBuilder: (context, index) {
+                          final movie = state.movies[index];
+                          return GestureDetector(
+                            onLongPress: () {
+                              setState(() {
+                                if (selectedMovies.contains(movie)) {
+                                  selectedMovies.remove(movie);
+                                } else {
+                                  selectedMovies.add(movie);
+                                }
+                              });
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: selectedMovies.contains(movie)
+                                    ? Border.all(
+                                        color: Colors.blue,
+                                        width: 1.5,
+                                      )
+                                    : null,
+                              ),
+                              child: MovieCard(
+                                movie,
+                                () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          SingleMovieScreen(movie: movie)),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      )
+                    : const Center(
+                        child: Text(
+                          "No movies found",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      )),
           );
         }
         if (state is LocalFavMoviesError) {

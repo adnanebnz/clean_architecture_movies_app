@@ -7,8 +7,8 @@ class MovieCardShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-      baseColor: Colors.grey[200]!,
-      highlightColor: Colors.grey[100]!,
+      baseColor: Colors.grey[100]!.withAlpha(100),
+      highlightColor: Colors.grey[50]!.withAlpha(100),
       child: Card(
         elevation: 2,
         margin: const EdgeInsets.all(5),
