@@ -59,7 +59,7 @@ class LocalFavMoviesBloc
     final result = await addFavMovie(event.movie);
     result.fold(
       (l) => emit(LocalFavMoviesError(l.toString())),
-      (r) => emit(LocalFavMoviesAddedSuccess()),
+      (r) => add(const FetchLocalFavMoviesEvent()),
     );
   }
 

@@ -32,6 +32,7 @@ import 'package:movies_app/presentation/bloc/movie_trailer/movie_trailer_bloc.da
 import 'package:movies_app/presentation/bloc/popular_movies/popular_movies_bloc.dart';
 import 'package:movies_app/presentation/bloc/search_movies/search_movies_bloc.dart';
 import 'package:movies_app/presentation/bloc/trending_movies/trending_movies_bloc.dart';
+import 'package:youtube_data_api/youtube_data_api.dart';
 
 final getIt = GetIt.instance;
 
@@ -41,7 +42,7 @@ void init() async {
   getIt.registerFactory(() => TrendingMoviesBloc(getTrendingMovies: getIt()));
   getIt.registerFactory(() => SearchMoviesBloc(searchMovies: getIt()));
   getIt.registerFactory(() => GenresBloc(getGenres: getIt()));
-  getIt.registerFactory(() => MovieTrailerBloc());
+  getIt.registerFactory(() => MovieTrailerBloc(ytManager: getIt()));
   getIt.registerFactory(
     () => LocalFavMoviesBloc(
       getFavMovies: getIt(),
@@ -87,6 +88,8 @@ void init() async {
   getIt.registerLazySingleton(() => DioManager.getDio());
   // GetStorage service
   // getIt.registerLazySingleton(() => GetStorageManager.getStorage());
+  //yt data api
+  getIt.registerLazySingleton(() => YoutubeDataApi());
   // Hive Boxes
   final moviesBox = await HiveManager.getMoviesBox();
   getIt.registerLazySingleton<Box<MovieModel>>(() => moviesBox);

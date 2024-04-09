@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/injection_container.dart';
 import 'package:movies_app/presentation/bloc/genres_bloc/genres_bloc.dart';
 import 'package:movies_app/presentation/bloc/local_fav_movies/local_fav_movies_bloc.dart';
+import 'package:movies_app/presentation/bloc/movie_trailer/movie_trailer_bloc.dart';
 import 'package:movies_app/presentation/bloc/popular_movies/popular_movies_bloc.dart';
 import 'package:movies_app/presentation/bloc/search_movies/search_movies_bloc.dart';
 import 'package:movies_app/presentation/bloc/trending_movies/trending_movies_bloc.dart';
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => getIt<LocalFavMoviesBloc>(),
         ),
+        BlocProvider(create: (context) => getIt<MovieTrailerBloc>()),
       ],
       child: MaterialApp(
         title: 'Movie App',
