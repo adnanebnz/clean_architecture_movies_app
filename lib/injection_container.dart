@@ -26,13 +26,10 @@ import 'package:movies_app/domain/usecases/remote/get_genres.dart';
 import 'package:movies_app/domain/usecases/remote/get_popular_movies.dart';
 import 'package:movies_app/domain/usecases/remote/get_trending_movies.dart';
 import 'package:movies_app/domain/usecases/remote/search_movie.dart';
-import 'package:movies_app/presentation/bloc/delete_local_fav_movies/delete_local_fav_movies_bloc.dart';
 import 'package:movies_app/presentation/bloc/genres_bloc/genres_bloc.dart';
-import 'package:movies_app/presentation/bloc/get_local_fav_movies/get_local_fav_movies_bloc.dart';
+import 'package:movies_app/presentation/bloc/local_fav_movies/local_fav_movies_bloc.dart';
 import 'package:movies_app/presentation/bloc/movie_trailer/movie_trailer_bloc.dart';
 import 'package:movies_app/presentation/bloc/popular_movies/popular_movies_bloc.dart';
-import 'package:movies_app/presentation/bloc/save_local_fav_movies/save_local_fav_movies_bloc.dart';
-import 'package:movies_app/presentation/bloc/search_local_fav_movies/search_local_fav_movies_bloc.dart';
 import 'package:movies_app/presentation/bloc/search_movies/search_movies_bloc.dart';
 import 'package:movies_app/presentation/bloc/trending_movies/trending_movies_bloc.dart';
 
@@ -44,14 +41,15 @@ void init() async {
   getIt.registerFactory(() => TrendingMoviesBloc(getTrendingMovies: getIt()));
   getIt.registerFactory(() => SearchMoviesBloc(searchMovies: getIt()));
   getIt.registerFactory(() => GenresBloc(getGenres: getIt()));
-  getIt.registerFactory(() => GetLocalFavMoviesBloc(getFavMovies: getIt()));
-  getIt.registerFactory(
-      () => SearchLocalFavMoviesBloc(searchFavMovies: getIt()));
-  getIt.registerFactory(() => SaveLocalFavMoviesBloc(addFavMovie: getIt()));
   getIt.registerFactory(() => MovieTrailerBloc());
-  getIt.registerFactory(() => DeleteLocalFavMoviesBloc(
-        removeFavMovie: getIt(),
-      ));
+  getIt.registerFactory(
+    () => LocalFavMoviesBloc(
+      getFavMovies: getIt(),
+      removeFavMovie: getIt(),
+      searchFavMovies: getIt(),
+      addFavMovie: getIt(),
+    ),
+  );
 
   // Use cases
   getIt.registerLazySingleton(() => GetPopularMovies(getIt()));

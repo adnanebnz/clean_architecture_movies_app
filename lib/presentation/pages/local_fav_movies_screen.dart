@@ -1,8 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/domain/entities/movie.dart';
-import 'package:movies_app/presentation/bloc/delete_local_fav_movies/delete_local_fav_movies_bloc.dart';
-import 'package:movies_app/presentation/bloc/get_local_fav_movies/get_local_fav_movies_bloc.dart';
+import 'package:movies_app/presentation/bloc/local_fav_movies/local_fav_movies_bloc.dart';
 import 'package:movies_app/presentation/pages/single_movie_screen.dart';
 import 'package:movies_app/presentation/widgets/movie_card.dart';
 
@@ -19,55 +20,48 @@ class _LocalFavMoviesScreenState extends State<LocalFavMoviesScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 1), () {
-      context.read<GetLocalFavMoviesBloc>().add(FetchFavMovies());
-    });
+    context.read<LocalFavMoviesBloc>().add(const FetchLocalFavMoviesEvent());
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: selectedMovies.isEmpty
-            ? const Text("Favorite Movies")
-            : Text("${selectedMovies.length} selected"),
-        actions: [
-          if (selectedMovies.isNotEmpty)
-            BlocBuilder<DeleteLocalFavMoviesBloc, DeleteLocalFavMoviesState>(
-              builder: (context, state) {
-                if (state is DeleteLocalFavMoviesLoading) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-                if (state is DeleteLocalFavMoviesError) {
-                  return Text(state.message);
-                }
-                return IconButton(
-                  icon: const Icon(Icons.delete),
-                  onPressed: () {
-                    context
-                        .read<DeleteLocalFavMoviesBloc>()
-                        .add(DeleteFavMovies(selectedMovies));
-                    setState(() {
-                      selectedMovies.clear();
-                    });
-                  },
-                );
-              },
+    return BlocBuilder<LocalFavMoviesBloc, LocalFavMoviesState>(
+      builder: (context, state) {
+        if (state is LocalFavMoviesLoading) {
+          return const Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
             ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: BlocBuilder<GetLocalFavMoviesBloc, GetLocalFavMoviesState>(
-          builder: (context, state) {
-            if (state is GetLocalFavMoviesLoading) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (state is GetLocalFavMoviesError) {
-              return Text('Error: ${state.message}');
-            } else if (state is GetLocalFavMoviesLoaded) {
-              return GridView.builder(
+          );
+        }
+        if (state is LocalFavMoviesLoaded) {
+          return Scaffold(
+            appBar: AppBar(
+              title: selectedMovies.isEmpty
+                  ? const Text("Favorite Movies")
+                  : Text("${selectedMovies.length} selected"),
+              actions: [
+                if (selectedMovies.isNotEmpty)
+                  IconButton(
+                    icon: const Icon(Icons.delete),
+                    onPressed: () {
+                      if (selectedMovies.isNotEmpty) {
+                        context
+                            .read<LocalFavMoviesBloc>()
+                            .add(DeleteLocalFavMovieEvent(selectedMovies));
+                        setState(() {
+                          selectedMovies.clear();
+                        });
+                      } else {
+                        log("No movies selected");
+                      }
+                    },
+                  ),
+              ],
+            ),
+            body: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   mainAxisSpacing: 8,
@@ -108,13 +102,23 @@ class _LocalFavMoviesScreenState extends State<LocalFavMoviesScreen> {
                     ),
                   );
                 },
-              );
-            } else {
-              return Container();
-            }
-          },
-        ),
-      ),
+              ),
+            ),
+          );
+        }
+        if (state is LocalFavMoviesError) {
+          return Scaffold(
+            body: Center(
+              child: Text(state.message),
+            ),
+          );
+        }
+        return const Scaffold(
+          body: Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
+      },
     );
   }
 }

@@ -4,8 +4,8 @@ import 'package:movies_app/domain/entities/genre.dart';
 import 'package:movies_app/domain/entities/movie.dart';
 import 'package:movies_app/injection_container.dart';
 import 'package:movies_app/presentation/bloc/genres_bloc/genres_bloc.dart';
+import 'package:movies_app/presentation/bloc/local_fav_movies/local_fav_movies_bloc.dart';
 import 'package:movies_app/presentation/bloc/movie_trailer/movie_trailer_bloc.dart';
-import 'package:movies_app/presentation/bloc/save_local_fav_movies/save_local_fav_movies_bloc.dart';
 import 'package:movies_app/presentation/widgets/genres_list.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -143,8 +143,8 @@ class _SingleMovieScreenState extends State<SingleMovieScreen> {
                           const SizedBox(height: 16),
                           Row(
                             children: [
-                              BlocBuilder<SaveLocalFavMoviesBloc,
-                                  SaveLocalFavMoviesState>(
+                              BlocBuilder<LocalFavMoviesBloc,
+                                  LocalFavMoviesState>(
                                 builder: (context, state) {
                                   return ElevatedButton(
                                     style: ButtonStyle(
@@ -183,11 +183,8 @@ class _SingleMovieScreenState extends State<SingleMovieScreen> {
                                       ),
                                     ),
                                     onPressed: () {
-                                      context
-                                          .read<SaveLocalFavMoviesBloc>()
-                                          .add(
-                                            SaveLocalFavMoviesEventSave(
-                                                widget.movie),
+                                      context.read<LocalFavMoviesBloc>().add(
+                                            AddLocalFavMovieEvent(widget.movie),
                                           );
                                     },
                                     child: const Text('Add to Favorites'),

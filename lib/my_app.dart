@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/injection_container.dart';
-import 'package:movies_app/presentation/bloc/delete_local_fav_movies/delete_local_fav_movies_bloc.dart';
 import 'package:movies_app/presentation/bloc/genres_bloc/genres_bloc.dart';
-import 'package:movies_app/presentation/bloc/get_local_fav_movies/get_local_fav_movies_bloc.dart';
+import 'package:movies_app/presentation/bloc/local_fav_movies/local_fav_movies_bloc.dart';
 import 'package:movies_app/presentation/bloc/popular_movies/popular_movies_bloc.dart';
-import 'package:movies_app/presentation/bloc/save_local_fav_movies/save_local_fav_movies_bloc.dart';
-import 'package:movies_app/presentation/bloc/search_local_fav_movies/search_local_fav_movies_bloc.dart';
 import 'package:movies_app/presentation/bloc/search_movies/search_movies_bloc.dart';
 import 'package:movies_app/presentation/bloc/trending_movies/trending_movies_bloc.dart';
 import 'package:movies_app/presentation/bloc/trending_movies/trending_movies_event.dart';
@@ -34,16 +31,7 @@ class MyApp extends StatelessWidget {
           create: (context) => getIt<SearchMoviesBloc>(),
         ),
         BlocProvider(
-          create: (context) => getIt<SaveLocalFavMoviesBloc>(),
-        ),
-        BlocProvider(
-          create: (context) => getIt<SearchLocalFavMoviesBloc>(),
-        ),
-        BlocProvider(
-            create: (context) =>
-                getIt<GetLocalFavMoviesBloc>()..add(FetchFavMovies())),
-        BlocProvider(
-          create: (context) => getIt<DeleteLocalFavMoviesBloc>(),
+          create: (context) => getIt<LocalFavMoviesBloc>(),
         ),
       ],
       child: MaterialApp(

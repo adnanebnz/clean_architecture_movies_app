@@ -9,8 +9,10 @@ import 'package:movies_app/presentation/pages/local_fav_movies_screen.dart';
 import 'package:movies_app/presentation/pages/popular_movies_screen.dart';
 import 'package:movies_app/presentation/pages/search_screen.dart';
 import 'package:movies_app/presentation/pages/trending_movies_screen.dart';
+import 'package:movies_app/presentation/widgets/genre_list_shimmer.dart';
 import 'package:movies_app/presentation/widgets/genres_list.dart';
 import 'package:movies_app/presentation/widgets/movies_list.dart';
+import 'package:movies_app/presentation/widgets/movies_list_shimmer.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -99,12 +101,7 @@ class HomeScreen extends StatelessWidget {
               BlocBuilder<GenresBloc, GenresState>(
                 builder: (context, state) {
                   if (state is GenresLoading) {
-                    return const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                    );
+                    return const GenreListShimmer();
                   } else if (state is GenresLoaded) {
                     return GenreList(genres: state.genres);
                   }
@@ -149,12 +146,7 @@ class HomeScreen extends StatelessWidget {
                 child: BlocBuilder<TrendingMoviesBloc, TrendingMoviesState>(
                   builder: (context, state) {
                     if (state is TrendingMoviesLoading) {
-                      return const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      );
+                      return const MoviesListShimmer();
                     } else if (state is TrendingMoviesLoaded) {
                       return MoviesList(movies: state.movies);
                     } else if (state is TrendingMoviesError) {
@@ -206,12 +198,7 @@ class HomeScreen extends StatelessWidget {
                 child: BlocBuilder<PopularMoviesBloc, PopularMoviesState>(
                   builder: (context, state) {
                     if (state is PopularMoviesLoading) {
-                      return const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      );
+                      return const MoviesListShimmer();
                     } else if (state is PopularMoviesLoaded) {
                       return MoviesList(movies: state.movies);
                     } else if (state is PopularMoviesError) {
