@@ -29,6 +29,7 @@ dependencies:
   hive_flutter: ^1.1.0
   youtube_data_api: ^1.0.4
   youtube_player_flutter: ^9.0.0
+  flutter_native_splash: ^2.4.0
 
 dev_dependencies:
   flutter_test:
@@ -43,6 +44,7 @@ flutter:
 
   assets:
     - .env
+    - assets/
 
   fonts:
     - family: Lato
@@ -51,3 +53,12 @@ flutter:
         - asset: assets/fonts/Lato-Regular.ttf
         - asset: assets/fonts/Lato-Bold.ttf
         - asset: assets/fonts/Lato-Black.ttf
+
+
+flutter_native_splash:
+  color: "#FFFFFF"
+  image: assets/movies-app.png
+
+  android: true
+  ios: true
+  web: true

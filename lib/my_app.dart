@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:movies_app/injection_container.dart';
 import 'package:movies_app/presentation/bloc/genres_bloc/genres_bloc.dart';
 import 'package:movies_app/presentation/bloc/local_fav_movies/local_fav_movies_bloc.dart';
@@ -10,8 +11,24 @@ import 'package:movies_app/presentation/bloc/trending_movies/trending_movies_blo
 import 'package:movies_app/presentation/bloc/trending_movies/trending_movies_event.dart';
 import 'package:movies_app/presentation/pages/home_screen.dart';
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  void _removeSplashScreen() async {
+    await Future.delayed(const Duration(seconds: 1));
+    FlutterNativeSplash.remove();
+  }
+
+  @override
+  void initState() {
+    _removeSplashScreen();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
