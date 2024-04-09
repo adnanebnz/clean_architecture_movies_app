@@ -46,9 +46,8 @@ class _LocalFavMoviesScreenState extends State<LocalFavMoviesScreen> {
                     icon: const Icon(Icons.delete),
                     onPressed: () {
                       if (selectedMovies.isNotEmpty) {
-                        context
-                            .read<LocalFavMoviesBloc>()
-                            .add(DeleteLocalFavMovieEvent(selectedMovies));
+                        context.read<LocalFavMoviesBloc>().add(
+                            DeleteLocalFavMovieEvent(selectedMovies.toList()));
                         setState(() {
                           selectedMovies.clear();
                         });

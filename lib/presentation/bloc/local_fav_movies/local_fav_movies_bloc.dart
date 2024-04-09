@@ -47,7 +47,9 @@ class LocalFavMoviesBloc
       final result = await removeFavMovie(movie);
       result.fold(
         (l) => emit(LocalFavMoviesError(l.toString())),
-        (r) => emit(LocalFavMoviesDeleteSuccess()),
+        (r) {
+          add(const FetchLocalFavMoviesEvent());
+        },
       );
     }
   }
