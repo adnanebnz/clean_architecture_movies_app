@@ -49,4 +49,17 @@ class MovieRepositoryImpl implements MovieRepository {
       return Left(Failure(message: failure.message));
     }
   }
+
+  @override
+  FutureEither<List<Movie>> discoverMovies(int page) async {
+    try {
+      final List<MovieModel> movieModels =
+          await remoteDataSource.discoverMovies(page);
+      final List<Movie> movies =
+          movieModels.map((model) => model.toEntity()).toList();
+      return Right(movies);
+    } on Failure catch (failure) {
+      return Left(Failure(message: failure.message));
+    }
+  }
 }

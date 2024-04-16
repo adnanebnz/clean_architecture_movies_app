@@ -19,14 +19,15 @@ samples, guidance on mobile development, and a full API reference.
 
 - [x] implement infinity scroll pagination
 - [x] add page for trending movies, popular movies.
-- [ ] add page for single movie, search movies.
-- [ ] add infos about genres (fetch them and show them as selectable chipsx)
+- [x] add page for single movie, search movies.
+- [x] add infos about genres (fetch them and show them as selectable chipsx)
 - [ ] use spinkits
 - [ ] re design home screen
-- [ ] add fav movies and watch later, willing to watch feature (local datasources)
-- [ ] add splash screen
-- [ ] add launcher icon
+- [x] add fav movies and watch later, willing to watch feature (local datasources)
+- [x] add splash screen
+- [x] add launcher icon
 - [ ] add TV series section
 - [ ] add discover https://developer.themoviedb.org/reference/discover-movie (for movie and tv)
 - [ ] export colors and theme options into a file
 - https://developer.themoviedb.org/reference/movie-details
+- [ ] ADD BOTTOM NAVBAR AND ADD DISCOVER MOVIES UI

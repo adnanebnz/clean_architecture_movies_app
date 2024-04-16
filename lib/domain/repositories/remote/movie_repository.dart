@@ -5,4 +5,5 @@ abstract class MovieRepository {
   FutureEither<List<Movie>> getTrendingMovies(int page);
   FutureEither<List<Movie>> searchMovies(String query, int page);
   FutureEither<List<Movie>> getPopularMovies(int page);
+  FutureEither<List<Movie>> discoverMovies(int page);
 }

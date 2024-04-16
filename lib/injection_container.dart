@@ -22,10 +22,12 @@ import 'package:movies_app/domain/usecases/local/get_to_watch_movies.dart';
 import 'package:movies_app/domain/usecases/local/remove_fav_movie.dart';
 import 'package:movies_app/domain/usecases/local/remove_to_watch_movie.dart';
 import 'package:movies_app/domain/usecases/local/search_fav_movies.dart';
+import 'package:movies_app/domain/usecases/remote/discover_movies.dart';
 import 'package:movies_app/domain/usecases/remote/get_genres.dart';
 import 'package:movies_app/domain/usecases/remote/get_popular_movies.dart';
 import 'package:movies_app/domain/usecases/remote/get_trending_movies.dart';
 import 'package:movies_app/domain/usecases/remote/search_movie.dart';
+import 'package:movies_app/presentation/bloc/discover_movies/discover_movies_bloc.dart';
 import 'package:movies_app/presentation/bloc/genres_bloc/genres_bloc.dart';
 import 'package:movies_app/presentation/bloc/local_fav_movies/local_fav_movies_bloc.dart';
 import 'package:movies_app/presentation/bloc/movie_trailer/movie_trailer_bloc.dart';
@@ -43,6 +45,7 @@ void init() async {
   getIt.registerFactory(() => SearchMoviesBloc(searchMovies: getIt()));
   getIt.registerFactory(() => GenresBloc(getGenres: getIt()));
   getIt.registerFactory(() => MovieTrailerBloc(ytManager: getIt()));
+  getIt.registerFactory(() => DiscoverMoviesBloc(discoverMovies: getIt()));
   getIt.registerFactory(
     () => LocalFavMoviesBloc(
       getFavMovies: getIt(),
@@ -57,6 +60,7 @@ void init() async {
   getIt.registerLazySingleton(() => GetTrendingMovies(getIt()));
   getIt.registerLazySingleton(() => SearchMovies(getIt()));
   getIt.registerLazySingleton(() => GetGenres(getIt()));
+  getIt.registerLazySingleton(() => DiscoverMovies(getIt()));
   getIt.registerLazySingleton(() => AddFavMovie(getIt()));
   getIt.registerLazySingleton(() => AddToWatchMovie(getIt()));
   getIt.registerLazySingleton(() => RemoveFavMovie(getIt()));

@@ -65,4 +65,22 @@ class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource {
       throw Failure(message: e.toString());
     }
   }
+
+  @override
+  Future<List<MovieModel>> discoverMovies(int page) async {
+    try {
+      final response = await dio.get("/discover/movie", queryParameters: {
+        "page": page,
+      });
+      final List<MovieModel> movies = (response.data['results'] as List)
+          .map((e) => MovieModel.fromJson(e))
+          .toList();
+      return movies;
+    } on DioException catch (dioError) {
+      final error = DioExceptions.fromDioError(dioError);
+      throw Failure(message: error.message);
+    } catch (e) {
+      throw Failure(message: e.toString());
+    }
+  }
 }

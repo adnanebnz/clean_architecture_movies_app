@@ -1,13 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/presentation/bloc/genres_bloc/genres_bloc.dart';
 import 'package:movies_app/presentation/bloc/popular_movies/popular_movies_bloc.dart';
 import 'package:movies_app/presentation/bloc/trending_movies/trending_movies_bloc.dart';
 import 'package:movies_app/presentation/bloc/trending_movies/trending_movies_state.dart';
-import 'package:movies_app/presentation/pages/local_fav_movies_screen.dart';
 import 'package:movies_app/presentation/pages/popular_movies_screen.dart';
-import 'package:movies_app/presentation/pages/search_screen.dart';
 import 'package:movies_app/presentation/pages/trending_movies_screen.dart';
 import 'package:movies_app/presentation/widgets/genre_list_shimmer.dart';
 import 'package:movies_app/presentation/widgets/genres_list.dart';
@@ -20,54 +17,6 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: false,
-        elevation: 0,
-        toolbarHeight: 80,
-        title: const Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Good morning 👋',
-              textAlign: TextAlign.start,
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Text(
-              'Movies App',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4),
-            child: IconButton(
-              icon: const Icon(CupertinoIcons.search),
-              onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const SearchScreen(),
-                  )),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4),
-            child: IconButton(
-              icon: const Icon(CupertinoIcons.heart),
-              onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const LocalFavMoviesScreen())),
-            ),
-          )
-        ],
-      ),
       body: Container(
         color: const Color.fromRGBO(18, 18, 18, 1),
         child: SingleChildScrollView(

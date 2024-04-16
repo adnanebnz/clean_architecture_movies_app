@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:movies_app/injection_container.dart';
+import 'package:movies_app/presentation/bloc/discover_movies/discover_movies_bloc.dart';
 import 'package:movies_app/presentation/bloc/genres_bloc/genres_bloc.dart';
 import 'package:movies_app/presentation/bloc/local_fav_movies/local_fav_movies_bloc.dart';
 import 'package:movies_app/presentation/bloc/movie_trailer/movie_trailer_bloc.dart';
@@ -9,7 +10,7 @@ import 'package:movies_app/presentation/bloc/popular_movies/popular_movies_bloc.
 import 'package:movies_app/presentation/bloc/search_movies/search_movies_bloc.dart';
 import 'package:movies_app/presentation/bloc/trending_movies/trending_movies_bloc.dart';
 import 'package:movies_app/presentation/bloc/trending_movies/trending_movies_event.dart';
-import 'package:movies_app/presentation/pages/home_screen.dart';
+import 'package:movies_app/presentation/pages/main_screen.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -52,6 +53,7 @@ class _MyAppState extends State<MyApp> {
           create: (context) => getIt<LocalFavMoviesBloc>(),
         ),
         BlocProvider(create: (context) => getIt<MovieTrailerBloc>()),
+        BlocProvider(create: (context) => getIt<DiscoverMoviesBloc>()),
       ],
       child: MaterialApp(
         title: 'Movie App',
@@ -101,7 +103,7 @@ class _MyAppState extends State<MyApp> {
             ),
           ),
         ),
-        home: const HomeScreen(),
+        home: const MainScreen(),
       ),
     );
   }
