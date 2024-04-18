@@ -6,6 +6,7 @@ import 'package:movies_app/presentation/bloc/genres_bloc/genres_bloc.dart';
 import 'package:movies_app/presentation/bloc/local_fav_movies/local_fav_movies_bloc.dart';
 import 'package:movies_app/presentation/bloc/movie_trailer/movie_trailer_bloc.dart';
 import 'package:movies_app/presentation/widgets/genres_list.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class SingleMovieScreen extends StatefulWidget {
@@ -22,6 +23,9 @@ class _SingleMovieScreenState extends State<SingleMovieScreen> {
 
   @override
   void initState() {
+    _controller = YoutubePlayerController(
+      initialVideoId: 'iLnmTe5Q2Qw',
+    );
     context.read<MovieTrailerBloc>().add(GetMovieTrailer(widget.movie.title));
 
     super.initState();
@@ -45,11 +49,6 @@ class _SingleMovieScreenState extends State<SingleMovieScreen> {
               mute: false,
             ),
           );
-        } else if (state is MovieTrailerError) {
-          return Scaffold(body: Center(child: Text('Error: ${state.message}')));
-        } else {
-          return const Scaffold(
-              body: Center(child: CircularProgressIndicator()));
         }
         return YoutubePlayerBuilder(
           builder: (context, player) {
@@ -275,7 +274,24 @@ class _SingleMovieScreenState extends State<SingleMovieScreen> {
                       ],
                     ),
                   ),
-                  player
+                  if (state is MovieTrailerLoaded)
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: player,
+                    )
+                  else
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Shimmer.fromColors(
+                        baseColor: Colors.grey[100]!.withAlpha(100),
+                        highlightColor: Colors.grey[300]!.withAlpha(100),
+                        child: Container(
+                          width: double.infinity,
+                          height: 180.0,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
                 ],
               ),
             );

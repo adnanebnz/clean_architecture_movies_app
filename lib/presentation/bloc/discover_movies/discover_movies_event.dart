@@ -7,19 +7,21 @@ sealed class DiscoverMoviesEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class FetchDiscoverMovies extends DiscoverMoviesEvent {}
+class FetchDiscoverMovies extends DiscoverMoviesEvent {
+  final FilterParams filterParams;
+
+  const FetchDiscoverMovies(this.filterParams);
+
+  @override
+  List<Object> get props => [filterParams];
+}
 
 class FetchNextPage extends DiscoverMoviesEvent {
   final int pageKey;
+  final FilterParams filterParams;
 
-  const FetchNextPage(this.pageKey);
-}
-
-class FilterMovies extends DiscoverMoviesEvent {
-  final List<String> queries;
-
-  const FilterMovies(this.queries);
+  const FetchNextPage(this.pageKey, this.filterParams);
 
   @override
-  List<Object> get props => [queries];
+  List<Object> get props => [pageKey, filterParams];
 }

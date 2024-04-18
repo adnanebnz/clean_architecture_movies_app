@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:movies_app/core/exceptions/Failure.dart';
 import 'package:movies_app/core/types/typedef.dart';
+import 'package:movies_app/core/utils/filter_params.dart';
 import 'package:movies_app/data/datasources/remote/movies_remote_data_source.dart';
 import 'package:movies_app/data/models/movie_model.dart';
 import 'package:movies_app/domain/entities/movie.dart';
@@ -51,10 +52,11 @@ class MovieRepositoryImpl implements MovieRepository {
   }
 
   @override
-  FutureEither<List<Movie>> discoverMovies(int page) async {
+  FutureEither<List<Movie>> discoverMovies(
+      int page, FilterParams filterParams) async {
     try {
       final List<MovieModel> movieModels =
-          await remoteDataSource.discoverMovies(page);
+          await remoteDataSource.discoverMovies(page, filterParams);
       final List<Movie> movies =
           movieModels.map((model) => model.toEntity()).toList();
       return Right(movies);

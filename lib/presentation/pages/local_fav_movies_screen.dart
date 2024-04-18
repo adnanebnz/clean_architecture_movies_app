@@ -60,7 +60,7 @@ class _LocalFavMoviesScreenState extends State<LocalFavMoviesScreen> {
             ),
             body: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: state.movies.length != 0
+                child: state.movies.isNotEmpty
                     ? GridView.builder(
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(

@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:movies_app/core/utils/filter_params.dart';
 import 'package:movies_app/domain/entities/movie.dart';
 import 'package:movies_app/presentation/bloc/discover_movies/discover_movies_bloc.dart';
 import 'package:movies_app/presentation/pages/single_movie_screen.dart';
+import 'package:movies_app/presentation/widgets/filter_dialog.dart';
 import 'package:movies_app/presentation/widgets/movie_card.dart';
 
 class DiscoverMoviesScreen extends StatefulWidget {
@@ -19,12 +21,22 @@ class _DiscoverMoviesScreenState extends State<DiscoverMoviesScreen> {
     firstPageKey: 1,
   );
 
+  late FilterParams filterParams;
+
   @override
   void initState() {
+    filterParams = FilterParams();
     _pagingController.addPageRequestListener((pageKey) {
-      context.read<DiscoverMoviesBloc>().add(FetchNextPage(pageKey));
+      context
+          .read<DiscoverMoviesBloc>()
+          .add(FetchNextPage(pageKey, filterParams));
     });
     super.initState();
+  }
+
+  void _submitFilters() {
+    _pagingController.refresh();
+    context.read<DiscoverMoviesBloc>().add(FetchDiscoverMovies(filterParams));
   }
 
   @override
@@ -43,6 +55,18 @@ class _DiscoverMoviesScreenState extends State<DiscoverMoviesScreen> {
             style: TextStyle(
               fontSize: 20,
             )),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.filter_list),
+            onPressed: () async {
+              filterParams = (await showDialog<FilterParams>(
+                context: context,
+                builder: (context) => FilterDialog(initialParams: filterParams),
+              ))!;
+              _submitFilters();
+            },
+          ),
+        ],
       ),
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),

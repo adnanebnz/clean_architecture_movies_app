@@ -15,7 +15,8 @@ class MovieTrailerBloc extends Bloc<MovieTrailerEvent, MovieTrailerState> {
       emit(MovieTrailerLoading());
       try {
         final List res = await ytManager.fetchSearchVideo(
-            "${event.query} Official Trailer", dotenv.env['YT_API_KEY']!);
+            "${event.query} Official Trailer ${DateTime.now().millisecondsSinceEpoch}",
+            dotenv.env['YT_API_KEY']!);
 
         List<Video> videos = res.whereType<Video>().toList();
         if (videos.isNotEmpty) {
