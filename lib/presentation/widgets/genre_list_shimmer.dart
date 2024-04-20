@@ -10,7 +10,7 @@ class GenreListShimmer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
       baseColor: Colors.grey[100]!.withAlpha(100),
-      highlightColor: Colors.grey[50]!.withAlpha(100),
+      highlightColor: Colors.grey[300]!.withAlpha(100),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
