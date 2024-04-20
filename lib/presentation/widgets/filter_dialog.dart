@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/core/utils/filter_params.dart';
+import 'package:movies_app/domain/entities/genre.dart';
+import 'package:movies_app/presentation/bloc/genres_bloc/genres_bloc.dart';
 
 class FilterDialog extends StatefulWidget {
   final FilterParams initialParams;
@@ -16,7 +19,7 @@ class _FilterDialogState extends State<FilterDialog> {
   late TextEditingController _releaseDateGteController;
   late TextEditingController _yearController;
   String? _sortBy;
-  List<int>? _withGenres;
+  List<int> _withGenres = [];
 
   @override
   void initState() {
@@ -30,7 +33,7 @@ class _FilterDialogState extends State<FilterDialog> {
     _yearController =
         TextEditingController(text: widget.initialParams.year?.toString());
     _sortBy = widget.initialParams.sortBy;
-    _withGenres = widget.initialParams.with_genres;
+    _withGenres = List.from(widget.initialParams.with_genres ?? []);
   }
 
   @override
@@ -62,6 +65,62 @@ class _FilterDialogState extends State<FilterDialog> {
                 setState(() {
                   _sortBy = newValue;
                 });
+              },
+            ),
+            const SizedBox(height: 12),
+            BlocBuilder<GenresBloc, GenresState>(
+              builder: (context, state) {
+                if (state is GenresLoaded) {
+                  List<Genre> movieGenres = state.genres;
+                  return ElevatedButton(
+                    child: const Text('Select Genres'),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: const Text('Select Genres'),
+                            content: StatefulBuilder(
+                              builder:
+                                  (BuildContext context, StateSetter setState) {
+                                return Container(
+                                  width: double.maxFinite,
+                                  child: ListView(
+                                    children: movieGenres.map((Genre genre) {
+                                      return CheckboxListTile(
+                                        title: Text(genre.name),
+                                        value: _withGenres.contains(genre.id),
+                                        onChanged: (bool? newValue) {
+                                          setState(() {
+                                            if (newValue == true) {
+                                              _withGenres.add(genre.id);
+                                            } else {
+                                              _withGenres.remove(genre.id);
+                                            }
+                                          });
+                                        },
+                                      );
+                                    }).toList(),
+                                  ),
+                                );
+                              },
+                            ),
+                            actions: <Widget>[
+                              TextButton(
+                                child: const Text('OK'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                  );
+                } else {
+                  return const CircularProgressIndicator();
+                }
               },
             ),
             const SizedBox(height: 12),
@@ -109,7 +168,7 @@ class _FilterDialogState extends State<FilterDialog> {
               _releaseDateGteController.text = '';
               _yearController.text = '';
               _sortBy = null;
-              _withGenres = null;
+              _withGenres = [];
             });
           },
         ),

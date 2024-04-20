@@ -35,7 +35,7 @@ class _MainScreenState extends State<MainScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Good morning 👋',
+              'Welcome Back 👋',
               textAlign: TextAlign.start,
               style: TextStyle(
                 fontSize: 16,
